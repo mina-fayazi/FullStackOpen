@@ -29,4 +29,4 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 - Extract the statistics into a separate `Statistics` component.
 
 ### 1.9: Unicafe, step 4
-- Display "No feedback given" when no feedback has been gathered, otherwise show feedback statistics.
+- Display `No feedback given` when no feedback has been gathered, otherwise show feedback statistics.

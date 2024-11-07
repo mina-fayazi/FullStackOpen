@@ -18,3 +18,6 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.5: Course Information, step 5
 - Combine the course and parts into a single object and refactor the components accordingly.
+
+### 1.6: Unicafe, step 1
+- Implement a feedback collection app for Unicafe. The app tracks three types of feedback (good, neutral, bad) and displays the count for each.

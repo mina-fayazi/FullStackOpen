@@ -21,3 +21,6 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.6: Unicafe, step 1
 - Implement a feedback collection app for Unicafe. The app tracks three types of feedback (good, neutral, bad) and displays the count for each.
+
+### 1.7: Unicafe, step 2
+- Add additional statistics to the Unicafe feedback app. Display the total feedback count, average score, and positive feedback percentage.

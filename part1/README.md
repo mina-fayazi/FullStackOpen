@@ -24,3 +24,9 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.7: Unicafe, step 2
 - Add additional statistics to the Unicafe feedback app. Display the total feedback count, average score, and positive feedback percentage.
+
+### 1.8: Unicafe, step 3
+- Extract the statistics into a separate `Statistics` component.
+
+### 1.9: Unicafe, step 4
+- Display "No feedback given" when no feedback has been gathered, otherwise show feedback statistics.

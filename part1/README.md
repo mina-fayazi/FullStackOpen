@@ -38,3 +38,6 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.11\*: Unicafe, step 6
 - Display the statistics in an HTML table layout.
+
+### 1.12\*: Anecdotes, step 1
+- Add a button to display a random software engineering anecdote from an array of quotes.

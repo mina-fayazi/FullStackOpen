@@ -41,3 +41,6 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.12\*: Anecdotes, step 1
 - Add a button to display a random software engineering anecdote from an array of quotes.
+
+### 1.13\*: Anecdotes, step 2
+- Add functionality to vote for the displayed anecdote. Each anecdote has an individual vote count stored in an array.

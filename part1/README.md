@@ -30,3 +30,8 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.9: Unicafe, step 4
 - Display `No feedback given` when no feedback has been gathered, otherwise show feedback statistics.
+
+### 1.10: unicafe step 5
+- Refactored the application by creating two new components:
+  - **Button**: Handles the functionality of each feedback button.
+  - **StatisticLine**: Displays a single line of a statistic (e.g., good, neutral, total).

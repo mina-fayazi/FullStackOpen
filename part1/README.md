@@ -44,3 +44,6 @@ This directory contains the exercises for Part 1 of the FullStackOpen course.
 
 ### 1.13\*: Anecdotes, step 2
 - Add functionality to vote for the displayed anecdote. Each anecdote has an individual vote count stored in an array.
+
+### 1.14\*: Anecdotes, step 3
+- Add functionality to display the anecdote with the most votes.

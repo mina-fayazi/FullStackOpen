@@ -12,3 +12,9 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.3\*: Course Information, step 8
 - Refactor the `Total` component to calculate the sum of exercises using the `reduce` method.
+
+### 2.4: Course Information, step 9
+- Modify the `App` component to render multiple courses.
+
+### 2.5: Course Information, step 10
+- Refactor the `Course` component and its subcomponents (`Header`, `Content`, `Part`, and `Total`) into separate module files within the `components` directory.

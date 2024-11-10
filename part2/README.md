@@ -30,3 +30,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.9\*: The Phonebook, step 4
 - Add a search filter to the phonebook application, allowing users to filter the displayed names based on the input.
+
+### 2.10: The Phonebook, step 5
+- Refactor the phonebook application into smaller, reusable components.

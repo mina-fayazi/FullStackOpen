@@ -18,3 +18,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.5: Course Information, step 10
 - Refactor the `Course` component and its subcomponents (`Header`, `Content`, `Part`, and `Total`) into separate module files within the `components` directory.
+
+### 2.6: The Phonebook, step 1
+- Create a basic phonebook application with a controlled form component for adding names.

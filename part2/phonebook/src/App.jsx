@@ -1,29 +1,30 @@
 import { useState } from 'react'
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]) 
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567' }])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
   
   // Handle form submission
   const addPerson = (event) => {
     event.preventDefault()
     
 	// Check if the new name already exists in the phonebook
-    const nameExists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
+    const nameExists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
     
     if (nameExists) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      const personObject = { name: newName }
-      setPersons(persons.concat(personObject))
+      const newPerson = { name: newName, number: newNumber }
+      setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
     }
   }
   
   // Handle changes in the input field
-  const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
+  const handleNameChange = (event) => setNewName(event.target.value)
+  const handleNumberChange = (event) => setNewNumber(event.target.value)
 
   return (
     <div>
@@ -38,6 +39,15 @@ const App = () => {
             autoComplete="name"
           />
         </div>
+		<div>
+          Number: <input
+			id="number"
+			name="number"
+			value={newNumber}
+			onChange={handleNumberChange}
+			autoComplete="number"
+          />
+        </div>
         <div>
           <button type="submit">Add</button>
         </div>
@@ -45,7 +55,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
+          <li key={person.name}>{person.name} {person.number}</li>
         ))}
       </ul>
     </div>

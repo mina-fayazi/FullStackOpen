@@ -24,3 +24,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.7: The Phonebook, step 2
 - Enhance the phonebook by preventing duplicate names from being added.
+
+### 2.8: The Phonebook, step 3
+- Extend the phonebook application to store both names and phone numbers.

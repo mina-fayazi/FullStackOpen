@@ -27,3 +27,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.8: The Phonebook, step 3
 - Extend the phonebook application to store both names and phone numbers.
+
+### 2.9\*: The Phonebook, step 4
+- Add a search filter to the phonebook application, allowing users to filter the displayed names based on the input.

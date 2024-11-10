@@ -7,11 +7,17 @@ const App = () => {
   // Handle form submission
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = { name: newName }
-
-    // Update the persons list and reset input
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    
+	// Check if the new name already exists in the phonebook
+    const nameExists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
+    
+    if (nameExists) {
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      const personObject = { name: newName }
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
   }
   
   // Handle changes in the input field

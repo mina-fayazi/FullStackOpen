@@ -21,3 +21,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.6: The Phonebook, step 1
 - Create a basic phonebook application with a controlled form component for adding names.
+
+### 2.7: The Phonebook, step 2
+- Enhance the phonebook by preventing duplicate names from being added.

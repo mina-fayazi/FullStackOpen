@@ -33,3 +33,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.10: The Phonebook, step 5
 - Refactor the phonebook application into smaller, reusable components.
+
+### 2.11: The Phonebook, step 6
+- Fetch and display initial phonebook data from a JSON server using the `axios` library.

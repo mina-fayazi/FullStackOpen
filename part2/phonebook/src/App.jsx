@@ -40,6 +40,21 @@ const App = () => {
     }
   }
   
+  // Handle deletion of a person
+  const handleDeletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert(`The contact ${name} was already deleted from the server`)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+  
   // Handle changes in the input field
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
@@ -71,7 +86,7 @@ const App = () => {
 	  
       <h3>Numbers</h3>
 	  
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} onDelete={handleDeletePerson} />
 	  
     </div>
   )

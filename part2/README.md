@@ -42,3 +42,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.13: The Phonebook, step 8
 - Refactor the phonebook application by moving the backend communication logic into a separate service module.
+
+### 2.14: The Phonebook, step 9
+- Implement functionality to delete entries from the phonebook with a dedicated delete button for each person in the list.

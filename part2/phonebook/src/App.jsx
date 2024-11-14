@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({ message: null, type: '' })
   
   // Fetch initial persons data for the phonebook from the server
   useEffect(() => {
@@ -18,6 +20,14 @@ const App = () => {
         setPersons(initialPersons)
       })
   }, [])
+  
+  // Display notification message
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification({ message: null, type: '' })
+    }, 5000)
+  }
   
   // Handle form submission
   const addPerson = (event) => {
@@ -35,9 +45,10 @@ const App = () => {
             setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+			showNotification(`Updated ${newName}'s number`, 'success')
           })
           .catch(error => {
-            alert(`The contact ${newName} was already deleted from the server`)
+            showNotification(`The contact ${newName} was already deleted from the server`, 'error')
             setPersons(persons.filter(person => person.id !== existingPerson.id))
           })
       }
@@ -49,6 +60,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+		  showNotification(`Added ${newName}`, 'success')
+        })
+		.catch(error => {
+          showNotification(`Failed to add ${newName}`, 'error')
         })
     }
   }
@@ -60,9 +75,10 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
+		  showNotification(`Deleted ${name}`, 'success')
         })
         .catch(error => {
-          alert(`The contact ${name} was already deleted from the server`)
+          showNotification(`The contact ${name} was already deleted from the server`, 'error')
           setPersons(persons.filter(person => person.id !== id))
         })
     }
@@ -84,6 +100,8 @@ const App = () => {
     <div>
 	
       <h2>Phonebook</h2>
+	  
+	  <Notification message={notification.message} type={notification.type} />
 	  
 	  <Filter filter={filter} onFilterChange={handleFilterChange} />
 	  

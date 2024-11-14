@@ -48,3 +48,9 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.15\*: The Phonebook, step 10
 - Add functionality to update an existing person’s phone number if it already exists in the phonebook.
+
+### 2.16: The Phonebook, step 11
+- Introduce a `Notification` module to handle error and success messages with CSS style rules.
+
+### 2.17\*: The Phonebook, step 12
+- Improve error handling to display a user-friendly message for unsuccessful operations instead of console errors.

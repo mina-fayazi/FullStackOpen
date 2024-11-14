@@ -39,3 +39,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.12: The Phonebook, step 7
 - Extend the phonebook application to save new contact entries to a backend server.
+
+### 2.13: The Phonebook, step 8
+- Refactor the phonebook application by moving the backend communication logic into a separate service module.

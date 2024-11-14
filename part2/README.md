@@ -45,3 +45,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.14: The Phonebook, step 9
 - Implement functionality to delete entries from the phonebook with a dedicated delete button for each person in the list.
+
+### 2.15\*: The Phonebook, step 10
+- Add functionality to update an existing person’s phone number if it already exists in the phonebook.

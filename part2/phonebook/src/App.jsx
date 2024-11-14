@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,12 +10,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   
-  // Fetch initial data for the phonebook from the server
+  // Fetch initial persons data for the phonebook from the server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data))
-      .catch(error => console.error('Error fetching data:', error))
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
   }, [])
   
   // Handle form submission
@@ -28,11 +29,14 @@ const App = () => {
     if (nameExists) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      const newId = Math.max(...persons.map((p) => p.id)) + 1
-      const newPerson = { name: newName, number: newNumber, id: newId }
-	  setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
+      const newPerson = { name: newName, number: newNumber }
+      personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
   

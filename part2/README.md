@@ -36,3 +36,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.11: The Phonebook, step 6
 - Fetch and display initial phonebook data from a JSON server using the `axios` library.
+
+### 2.12: The Phonebook, step 7
+- Extend the phonebook application to save new contact entries to a backend server.

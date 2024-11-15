@@ -60,3 +60,6 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.19\*: Data for Countries, step 2
 - Enhance the country list functionality by adding a `Show` button next to each country's name in the filtered list.
+
+### 2.20\*: Data for Countries, step 3
+- Extend the country details view by integrating real-time weather data for the capital city using the OpenWeatherMap API.

@@ -24,7 +24,7 @@ const CountryList = ({ countries, onShowCountry }) => {
   )
 }
 
-const CountryDetails = ({ country }) => {
+const CountryDetails = ({ country, weather }) => {
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -37,6 +37,20 @@ const CountryDetails = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png} alt={`Flag of ${country.name.common}`} width="200" />
+      <h2>Weather in {country.capital}</h2>
+      {weather ? (
+        <div>
+          <p><strong>Temperature:</strong> {weather.temperature}°C</p>
+          <p><strong>Wind:</strong> {weather.wind} m/s</p>
+          <img
+            src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+            alt={weather.description}
+          />
+          <p>{weather.description}</p>
+        </div>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
     </div>
   )
 }
@@ -46,6 +60,12 @@ const App = () => {
   const [search, setSearch] = useState('')
   const [filteredCountries, setFilteredCountries] = useState([])
   const [selectedCountry, setSelectedCountry] = useState(null)
+  const [weather, setWeather] = useState(null)
+  
+  const api_key = import.meta.env.VITE_SOME_KEY // Access API key from environment variables
+  // For Linux/macOS Bash: export VITE_SOME_KEY=your_API_key && npm run dev
+  // For Windows PowerShell: ($env:VITE_SOME_KEY="your_API_key") -and (npm run dev)
+  // For Windows cmd.exe: set "VITE_SOME_KEY=your_API_key" && npm run dev
 
   useEffect(() => {
     axios
@@ -54,6 +74,22 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
+
+  useEffect(() => {
+    if (selectedCountry) {
+      const capital = selectedCountry.capital[0]
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${capital}&units=metric&appid=${api_key}`
+      axios.get(url).then((response) => {
+        const data = response.data
+        setWeather({
+          temperature: data.main.temp,
+          wind: data.wind.speed,
+          icon: data.weather[0].icon,
+          description: data.weather[0].description,
+        })
+      })
+    }
+  }, [selectedCountry, api_key])
 
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase()
@@ -70,10 +106,12 @@ const App = () => {
         setSelectedCountry(results[0])
       } else {
         setSelectedCountry(null)
+        setWeather(null) // Clear weather data when changing selection
       }
     } else {
       setFilteredCountries([])
       setSelectedCountry(null)
+      setWeather(null) // Clear weather data when search is empty
     }
   }
 
@@ -90,7 +128,7 @@ const App = () => {
         placeholder="Search for a country"
       />
       {selectedCountry ? (
-        <CountryDetails country={selectedCountry} />
+        <CountryDetails country={selectedCountry} weather={weather} />
       ) : (
         <CountryList countries={filteredCountries} onShowCountry={handleShowCountry} />
       )}

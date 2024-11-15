@@ -54,3 +54,9 @@ This directory contains the exercises for Part 2 of the FullStackOpen course.
 
 ### 2.17\*: The Phonebook, step 12
 - Improve error handling to display a user-friendly message for unsuccessful operations instead of console errors.
+
+### 2.18\*: Data for Countries, step 1
+- Create an application that fetches data about countries from the REST Countries API and displays a filtered list based on user input.
+
+### 2.19\*: Data for Countries, step 2
+- Enhance the country list functionality by adding a `Show` button next to each country's name in the filtered list.

@@ -27,3 +27,10 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 - Define a `DELETE` route at `/api/persons/:id` that:
   - Removes the entry with the specified ID from the phonebook.
   - Responds with a `204 No Content` status upon successful deletion.
+
+### 3.5: Phonebook Backend, step 5
+- Add functionality to add new entries to the phonebook.
+- Define a `POST` route at `/api/persons` that:
+  - Adds a new entry to the phonebook.
+  - Ensures that the `name` and `number` fields are included in the request body.
+  - Validates that the `name` field is unique, returning a `400 Bad Request` status and an error message if the name already exists.

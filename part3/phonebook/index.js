@@ -60,6 +60,35 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
+// Add the route for adding a new phonebook entry
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  // Check if name or number is missing
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: 'Name or number is missing'
+    })
+  }
+
+  // Check if name already exists
+  if (persons.find(person => person.name === body.name)) {
+    return response.status(400).json({
+      error: 'Name must be unique'
+    })
+  }
+
+  // Create a new person object
+  const newPerson = {
+    id: String(Math.floor(Math.random() * 10000)), // Generate a random id
+    name: body.name,
+    number: body.number
+  }
+
+  persons = persons.concat(newPerson)
+  response.json(newPerson)
+})
+
 // Start the server
 const PORT = 3001
 app.listen(PORT, () => {

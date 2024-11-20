@@ -39,6 +39,17 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+// Add the route for fetching a single resource by id
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(p => p.id === id)
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).send(`<h1>404 Not Found</h1><p>Person with id ${id} not found.</p>`)
+  }
+})
+
 // Start the server
 const PORT = 3001
 app.listen(PORT, () => {

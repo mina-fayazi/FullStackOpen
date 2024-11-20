@@ -25,6 +25,9 @@ let persons = [
     }
 ]
 
+// Middleware to handle JSON body parsing
+app.use(express.json())
+
 // Add the /info route
 app.get('/info', (request, response) => {
   const date = new Date()
@@ -48,6 +51,13 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).send(`<h1>404 Not Found</h1><p>Person with id ${id} not found.</p>`)
   }
+})
+
+// Add the route for deleting a phonebook entry by id
+app.delete('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  persons = persons.filter(person => person.id !== id)
+  response.status(204).end()
 })
 
 // Start the server

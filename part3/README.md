@@ -21,3 +21,9 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - Searches for the entry with the given ID.
   - Returns the matching entry as a JSON response if found.
   - Responds with a `404 Not Found` status and an appropriate error message if the entry does not exist.
+
+### 3.4: Phonebook Backend, step 4
+- Add functionality to delete a phonebook entry.
+- Define a `DELETE` route at `/api/persons/:id` that:
+  - Removes the entry with the specified ID from the phonebook.
+  - Responds with a `204 No Content` status upon successful deletion.

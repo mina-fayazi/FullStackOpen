@@ -89,6 +89,11 @@ app.post('/api/persons', (request, response) => {
   response.json(newPerson)
 })
 
+// Middleware to handle unknown endpoints
+app.use((request, response) => {
+  response.status(404).send({ error: 'Unknown endpoint' })
+})
+
 // Start the server
 const PORT = 3001
 app.listen(PORT, () => {

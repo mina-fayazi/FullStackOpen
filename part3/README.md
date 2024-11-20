@@ -34,3 +34,6 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - Adds a new entry to the phonebook.
   - Ensures that the `name` and `number` fields are included in the request body.
   - Validates that the `name` field is unique, returning a `400 Bad Request` status and an error message if the name already exists.
+
+### 3.6: Phonebook Backend, step 6
+Enhance the phonebook backend by implementing error handling for creating new entries. This ensures that invalid requests are properly managed, and users are informed of the errors with appropriate messages.

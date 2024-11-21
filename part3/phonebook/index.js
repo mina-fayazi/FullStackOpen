@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 // Hardcoded list of phonebook entries
 let persons = [
@@ -27,6 +28,20 @@ let persons = [
 
 // Middleware to handle JSON body parsing
 app.use(express.json())
+
+// Middleware for logging
+// Create a custom token to log the request body for POST requests
+morgan.token('body', (req) => JSON.stringify(req.body))
+
+// Use morgan with custom format to include body in POST requests
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :body', {
+    skip: (req) => req.method !== 'POST', // Only include the body for POST requests
+  })
+)
+
+// Use morgan for general logging in "tiny" format
+app.use(morgan('tiny'))
 
 // Add the /info route
 app.get('/info', (request, response) => {

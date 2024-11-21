@@ -36,4 +36,12 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - Validates that the `name` field is unique, returning a `400 Bad Request` status and an error message if the name already exists.
 
 ### 3.6: Phonebook Backend, step 6
-Enhance the phonebook backend by implementing error handling for creating new entries. This ensures that invalid requests are properly managed, and users are informed of the errors with appropriate messages.
+- Enhance the phonebook backend by implementing error handling for creating new entries. This ensures that invalid requests are properly managed, and users are informed of the errors with appropriate messages.
+
+### 3.7: Phonebook Backend, step 7
+- Add the `morgan` middleware for logging requests.
+- Configure `morgan` to use the "tiny" format.
+
+### 3.8\*: Phonebook Backend, step 8
+- Extend `morgan` to log the data sent in HTTP POST requests.
+- Note: Avoid logging sensitive data in production environments to comply with privacy regulations.

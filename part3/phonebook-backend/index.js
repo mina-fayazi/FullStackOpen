@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+const path = require('path')
 
 const app = express()
 
@@ -109,13 +110,20 @@ app.post('/api/persons', (request, response) => {
   response.json(newPerson)
 })
 
+// Serve the production build of the frontend
+app.use(express.static(path.join(__dirname, 'dist')))
+
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'dist', 'index.html'))
+})
+
 // Middleware to handle unknown endpoints
 app.use((request, response) => {
   response.status(404).send({ error: 'Unknown endpoint' })
 })
 
 // Start the server
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })

@@ -1,6 +1,8 @@
 const express = require('express')
-const app = express()
+const cors = require('cors')
 const morgan = require('morgan')
+
+const app = express()
 
 // Hardcoded list of phonebook entries
 let persons = [
@@ -28,6 +30,9 @@ let persons = [
 
 // Middleware to handle JSON body parsing
 app.use(express.json())
+
+// Middleware for handling CORS
+app.use(cors())
 
 // Middleware for logging
 // Create a custom token to log the request body for POST requests

@@ -52,6 +52,7 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - Place the frontend's production build files in the `part3/phonebook-backend/dist` directory.
   - Configure the backend to serve static files from this directory using `Express`.
   - Update the frontend to ensure its requests point to the correct backend URLs.
+- Install and use `CORS` to enable cross-origin requests between the frontend and backend.
 - Verify the integration:
   - Ensure that the phonebook frontend can fetch, add, and delete entries using the backend API.
   - Test all existing functionality in the frontend with the backend.

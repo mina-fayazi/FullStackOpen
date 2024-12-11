@@ -56,3 +56,29 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 - Verify the integration:
   - Ensure that the phonebook frontend can fetch, add, and delete entries using the backend API.
   - Test all existing functionality in the frontend with the backend.
+
+### 3.10: Phonebook Backend, step 10
+- Deploy the backend to the internet using Render.
+- Steps for deployment:
+  1. Create a public repository for the backend in GitHub.
+  2. Sign in to [Render](https://render.com) with your GitHub account.
+  3. Create a new "Web Service" in Render and connect it to the backend repository.
+  4. Define the build and start commands in Render:
+     - Build Command: `npm install`
+     - Start Command: `npm start`
+  5. Ensure the backend application listens on the port specified by the `PORT` environment variable (default to `3001` if not set).
+  6. Monitor the logs in Render to confirm the application has started successfully.
+- Verify the deployed backend using:
+  - A browser, by navigating to the deployed URL.
+  - Tools like Postman or VS Code REST Client.
+- The backend for this exercise is deployed at:  
+  [Phonebook Backend on Render](https://phonebook-backend-gk9h.onrender.com/)
+
+### 3.11: Full Stack Phonebook
+- Integrate the frontend production build with the deployed backend.
+- Redeploy the backend on Render with the integrated frontend.
+- Verify that the frontend application works correctly:
+  - Locally in development mode with `npm run dev`.
+  - In production using the deployed URL.
+- The deployed application can be accessed at:  
+  [Phonebook Full Stack Application on Render](https://phonebook-backend-gk9h.onrender.com/)

@@ -82,3 +82,18 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - In production using the deployed URL.
 - The deployed application can be accessed at:  
   [Phonebook Full Stack Application on Render](https://phonebook-backend-gk9h.onrender.com/)
+
+### 3.12: Command-line Database
+- Set up a cloud-based MongoDB database for the phonebook application using MongoDB Atlas.
+- Create a `mongo.js` file in the backend project directory to manage phonebook entries directly from the command line.
+- The script can either add a new entry or list all entries depending on whether `name` and `number` are provided:
+1. **Add a New Entry**  
+   - Usage:  
+     ```bash
+     node mongo.js <username> <password> <name> <number>
+     ```
+2. **List All Entries**  
+   - Usage:  
+     ```bash
+     node mongo.js <username> <password>
+     ```

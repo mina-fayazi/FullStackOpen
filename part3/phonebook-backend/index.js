@@ -1,33 +1,11 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const path = require('path')
+const Person = require('./models/person')
 
 const app = express()
-
-// Hardcoded list of phonebook entries
-let persons = [
-    { 
-      id: "1",
-      name: "Arto Hellas", 
-      number: "040-123456"
-    },
-    { 
-      id: "2",
-      name: "Ada Lovelace", 
-      number: "39-44-5323523"
-    },
-    { 
-      id: "3",
-      name: "Dan Abramov", 
-      number: "12-43-234345"
-    },
-    { 
-      id: "4",
-      name: "Mary Poppendieck", 
-      number: "39-23-6423122"
-    }
-]
 
 // Middleware to handle JSON body parsing
 app.use(express.json())
@@ -49,40 +27,16 @@ app.use(
 // Use morgan for general logging in "tiny" format
 app.use(morgan('tiny'))
 
-// Add the /info route
-app.get('/info', (request, response) => {
-  const date = new Date()
-  response.send(`
-    <p>Phonebook has info for ${persons.length} people</p>
-    <p>${date}</p>
-  `)
-})
-
-// Define a route to return the phonebook data
+// Define the /api/persons GET route
 app.get('/api/persons', (request, response) => {
+  Person.find({}).then((persons) => {
+    console.log('Retrieved persons:', persons)
     response.json(persons)
-})
-
-// Add the route for fetching a single resource by id
-app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(p => p.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).send(`<h1>404 Not Found</h1><p>Person with id ${id} not found.</p>`)
-  }
-})
-
-// Add the route for deleting a phonebook entry by id
-app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  persons = persons.filter(person => person.id !== id)
-  response.status(204).end()
+  })
 })
 
 // Add the route for adding a new phonebook entry
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   // Check if name or number is missing
@@ -91,23 +45,19 @@ app.post('/api/persons', (request, response) => {
       error: 'Name or number is missing'
     })
   }
-
-  // Check if name already exists
-  if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({
-      error: 'Name must be unique'
-    })
-  }
-
-  // Create a new person object
-  const newPerson = {
-    id: String(Math.floor(Math.random() * 10000)), // Generate a random id
+  
+  const person = new Person({
     name: body.name,
-    number: body.number
-  }
+    number: body.number,
+  })
 
-  persons = persons.concat(newPerson)
-  response.json(newPerson)
+  person
+    .save()
+    .then((savedPerson) => {
+      console.log('Saved person:', savedPerson)
+      response.json(savedPerson)
+    })
+    .catch((error) => next(error))
 })
 
 // Serve the production build of the frontend

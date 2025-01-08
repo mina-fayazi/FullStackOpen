@@ -87,13 +87,28 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 - Set up a cloud-based MongoDB database for the phonebook application using MongoDB Atlas.
 - Create a `mongo.js` file in the backend project directory to manage phonebook entries directly from the command line.
 - The script can either add a new entry or list all entries depending on whether `name` and `number` are provided:
-1. **Add a New Entry**  
-   - Usage:  
+1. **Add a New Entry**
      ```bash
      node mongo.js <username> <password> <name> <number>
      ```
 2. **List All Entries**  
-   - Usage:  
      ```bash
      node mongo.js <username> <password>
      ```
+
+### 3.13: Phonebook Database, Step 1
+- Refactor the backend to fetch phonebook entries from a MongoDB database instead of using a hardcoded array.
+- Set up a `models/person.js` file to define the Mongoose schema and model for phonebook entries:
+  - Each entry includes a `name` and `number` field.
+- Modify the `/api/persons` route to retrieve data from the database using Mongoose.
+- Verify that the frontend works as expected after the changes:
+  - Ensure that the list of phonebook entries is fetched from the backend API and displayed correctly in the frontend.
+
+### 3.14: Phonebook Database, Step 2
+- Update the backend to save new phonebook entries to the database when they are added via the frontend.
+- Modify the `POST /api/persons` route to:
+  - Create and save a new person in the MongoDB database using Mongoose.
+  - Validate that both the `name` and `number` fields are provided in the request body, returning a `400 Bad Request` error if either field is missing.
+- Test the functionality to ensure the frontend can add new entries to the phonebook:
+  - Verify that new entries appear in the frontend's list after being successfully added.
+  - Confirm the data is saved correctly in the MongoDB database.

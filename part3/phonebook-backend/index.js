@@ -30,7 +30,7 @@ app.use(morgan('tiny'))
 // Define the /api/persons GET route
 app.get('/api/persons', (request, response) => {
   Person.find({}).then((persons) => {
-    console.log('Retrieved persons:', persons)
+    //console.log('Retrieved persons:', persons)
     response.json(persons)
   })
 })
@@ -54,8 +54,17 @@ app.post('/api/persons', (request, response, next) => {
   person
     .save()
     .then((savedPerson) => {
-      console.log('Saved person:', savedPerson)
+      //console.log('Saved person:', savedPerson)
       response.json(savedPerson)
+    })
+    .catch((error) => next(error))
+})
+
+// Add the route for deleting a phonebook entry by ID
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end()
     })
     .catch((error) => next(error))
 })

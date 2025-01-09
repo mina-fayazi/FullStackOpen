@@ -112,3 +112,6 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 - Test the functionality to ensure the frontend can add new entries to the phonebook:
   - Verify that new entries appear in the frontend's list after being successfully added.
   - Confirm the data is saved correctly in the MongoDB database.
+
+### 3.15: Phonebook Database, Step 3
+- Enhance the backend to support the deletion of phonebook entries stored in the MongoDB database.

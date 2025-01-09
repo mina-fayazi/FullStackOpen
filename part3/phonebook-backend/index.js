@@ -60,6 +60,27 @@ app.post('/api/persons', (request, response, next) => {
     .catch((error) => next(error)) // Pass error to error handler
 })
 
+// Add the route for updating an existing phonebook entry by ID
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+
+  const updatedPerson = { name, number }
+
+  Person.findByIdAndUpdate(
+    request.params.id,
+    updatedPerson,
+    { new: true, runValidators: true, context: 'query' }
+  )
+    .then((result) => {
+      if (result) {
+        response.json(result)
+      } else {
+        response.status(404).json({ error: 'Person not found' })
+      }
+    })
+    .catch((error) => next(error)) // Pass error to error handler
+})
+
 // Add the route for deleting a phonebook entry by ID
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)

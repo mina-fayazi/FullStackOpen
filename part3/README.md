@@ -118,3 +118,6 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 
 ### 3.16: Phonebook Database, Step 4
 - Refactor the backend to use a dedicated error handler middleware for managing errors.
+
+### 3.17\*: Phonebook Database, Step 5
+- Modify the backend to support updating the phone number of an existing entry when the user tries to add a person whose name is already in the phonebook. The frontend will send an HTTP `PUT` request to the unique URL of the existing entry to update its phone number.

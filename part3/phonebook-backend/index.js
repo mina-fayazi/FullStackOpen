@@ -57,7 +57,7 @@ app.post('/api/persons', (request, response, next) => {
       //console.log('Saved person:', savedPerson)
       response.json(savedPerson)
     })
-    .catch((error) => next(error))
+    .catch((error) => next(error)) // Pass error to error handler
 })
 
 // Add the route for deleting a phonebook entry by ID
@@ -66,7 +66,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .then(() => {
       response.status(204).end()
     })
-    .catch((error) => next(error))
+    .catch((error) => next(error)) // Pass error to error handler
 })
 
 // Serve the production build of the frontend
@@ -76,10 +76,27 @@ app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
-// Middleware to handle unknown endpoints
-app.use((request, response) => {
-  response.status(404).send({ error: 'Unknown endpoint' })
-})
+// Middleware for handling unsupported routes
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// Handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+// Error handling middleware
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' }) // Handle invalid MongoDB ObjectId
+  }
+
+  next(error) // Pass unhandled errors to Express' default error handler
+}
+
+// Handler of requests with result to errors
+app.use(errorHandler)
 
 // Start the server
 const PORT = process.env.PORT || 3001

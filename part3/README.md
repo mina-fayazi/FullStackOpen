@@ -115,3 +115,6 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 
 ### 3.15: Phonebook Database, Step 3
 - Enhance the backend to support the deletion of phonebook entries stored in the MongoDB database.
+
+### 3.16: Phonebook Database, Step 4
+- Refactor the backend to use a dedicated error handler middleware for managing errors.

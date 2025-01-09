@@ -27,15 +27,41 @@ app.use(
 // Use morgan for general logging in "tiny" format
 app.use(morgan('tiny'))
 
-// Define the /api/persons GET route
-app.get('/api/persons', (request, response) => {
-  Person.find({}).then((persons) => {
-    //console.log('Retrieved persons:', persons)
-    response.json(persons)
-  })
+// Define the /info route
+app.get('/info', (request, response, next) => {
+  Person.countDocuments({})
+    .then((count) => {
+      response.send(`
+        <p>Phonebook has info for ${count} people</p>
+        <p>${new Date()}</p>
+      `)
+    })
+    .catch((error) => next(error)) // Pass error to error handler
 })
 
-// Add the route for adding a new phonebook entry
+// Define the GET /api/persons route
+app.get('/api/persons', (request, response, next) => {
+  Person.find({})
+    .then((persons) => {
+      response.json(persons)
+    })
+    .catch((error) => next(error)) // Pass error to error handler
+})
+
+// Define the GET /api/persons/:id route
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).json({ error: 'Person not found' })
+      }
+    })
+    .catch((error) => next(error)) // Pass error to error handler
+})
+
+// Define the route for adding a new phonebook entry
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
@@ -60,7 +86,7 @@ app.post('/api/persons', (request, response, next) => {
     .catch((error) => next(error)) // Pass error to error handler
 })
 
-// Add the route for updating an existing phonebook entry by ID
+// Define the route for updating an existing phonebook entry by ID
 app.put('/api/persons/:id', (request, response, next) => {
   const { name, number } = request.body
 
@@ -81,7 +107,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch((error) => next(error)) // Pass error to error handler
 })
 
-// Add the route for deleting a phonebook entry by ID
+// Define the route for deleting a phonebook entry by ID
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(() => {

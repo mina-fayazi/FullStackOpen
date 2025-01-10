@@ -129,3 +129,10 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 ### 3.19\*: Phonebook Database, Step 7
 - Expand the backend validation to ensure the `name` field in the database contains at least three characters.
 - Modify the frontend to display error messages when validation fails.
+
+### 3.20\*: Phonebook Database, Step 8
+- Add validation to ensure phone numbers in the phonebook are in the correct format:
+    - Have a length of 8 or more characters.
+    - Be formed of two parts separated by a hyphen (`-`), where the first part has two or three digits and the second part consists of digits. For example:
+        - Valid: `09-1234556`, `040-22334455`
+        - Invalid: `1234556`, `1-22334455`, `10-22-334455`

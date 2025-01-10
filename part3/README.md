@@ -125,3 +125,7 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 ### 3.18\*: Phonebook Database, Step 6
 - Add the `GET /api/persons/:id` route to fetch a person's details directly from the MongoDB database.
 - Implement the `/info` route to use the database for determining the total number of entries.
+
+### 3.19\*: Phonebook Database, Step 7
+- Expand the backend validation to ensure the `name` field in the database contains at least three characters.
+- Modify the frontend to display error messages when validation fails.

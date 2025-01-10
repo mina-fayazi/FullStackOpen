@@ -48,8 +48,17 @@ const App = () => {
 			showNotification(`Updated ${newName}'s number`, 'success')
           })
           .catch(error => {
-            showNotification(`The contact ${newName} was already deleted from the server`, 'error')
-            setPersons(persons.filter(person => person.id !== existingPerson.id))
+            if (error.response && error.response.status === 400) {
+              // Handle validation errors
+              showNotification(error.response.data.error, 'error')
+            } else if (error.response && error.response.status === 404) {
+              // Handle deletion errors
+              showNotification(`The contact ${newName} was already deleted from the server`, 'error')
+              setPersons(persons.filter(person => person.id !== existingPerson.id))
+            } else {
+              // Handle any other unexpected errors
+              showNotification(`An unexpected error occurred`, 'error')
+            }
           })
       }
     } else {
@@ -63,7 +72,7 @@ const App = () => {
 		  showNotification(`Added ${newName}`, 'success')
         })
 		.catch(error => {
-          showNotification(`Failed to add ${newName}`, 'error')
+          showNotification(error.response.data.error, 'error') // Show server-side error
         })
     }
   }

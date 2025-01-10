@@ -137,6 +137,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' }) // Handle invalid MongoDB ObjectId
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message }) // Handle MongoDB validation errors
   }
 
   next(error) // Pass unhandled errors to Express' default error handler

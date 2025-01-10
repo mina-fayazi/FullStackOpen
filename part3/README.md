@@ -136,3 +136,8 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
     - Be formed of two parts separated by a hyphen (`-`), where the first part has two or three digits and the second part consists of digits. For example:
         - Valid: `09-1234556`, `040-22334455`
         - Invalid: `1234556`, `1-22334455`, `10-22-334455`
+
+### 3.21: Deploying the Database Backend to Production
+- Deploy the latest version of the full stack phonebook application to Render by creating a new production build of the frontend and integrating it into the backend repository.
+- The deployed application can be accessed at:  
+  [Phonebook Full Stack Application on Render](https://phonebook-backend-gk9h.onrender.com/)

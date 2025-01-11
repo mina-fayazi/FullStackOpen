@@ -96,7 +96,7 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
      node mongo.js <username> <password>
      ```
 
-### 3.13: Phonebook Database, Step 1
+### 3.13: Phonebook Database, step 1
 - Refactor the backend to fetch phonebook entries from a MongoDB database instead of using a hardcoded array.
 - Set up a `models/person.js` file to define the Mongoose schema and model for phonebook entries:
   - Each entry includes a `name` and `number` field.
@@ -104,7 +104,7 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
 - Verify that the frontend works as expected after the changes:
   - Ensure that the list of phonebook entries is fetched from the backend API and displayed correctly in the frontend.
 
-### 3.14: Phonebook Database, Step 2
+### 3.14: Phonebook Database, step 2
 - Update the backend to save new phonebook entries to the database when they are added via the frontend.
 - Modify the `POST /api/persons` route to:
   - Create and save a new person in the MongoDB database using Mongoose.
@@ -113,24 +113,24 @@ This directory contains the exercises for Part 3 of the FullStackOpen course.
   - Verify that new entries appear in the frontend's list after being successfully added.
   - Confirm the data is saved correctly in the MongoDB database.
 
-### 3.15: Phonebook Database, Step 3
+### 3.15: Phonebook Database, step 3
 - Enhance the backend to support the deletion of phonebook entries stored in the MongoDB database.
 
-### 3.16: Phonebook Database, Step 4
+### 3.16: Phonebook Database, step 4
 - Refactor the backend to use a dedicated error handler middleware for managing errors.
 
-### 3.17\*: Phonebook Database, Step 5
+### 3.17\*: Phonebook Database, step 5
 - Modify the backend to support updating the phone number of an existing entry when the user tries to add a person whose name is already in the phonebook. The frontend will send an HTTP `PUT` request to the unique URL of the existing entry to update its phone number.
 
-### 3.18\*: Phonebook Database, Step 6
+### 3.18\*: Phonebook Database, step 6
 - Add the `GET /api/persons/:id` route to fetch a person's details directly from the MongoDB database.
 - Implement the `/info` route to use the database for determining the total number of entries.
 
-### 3.19\*: Phonebook Database, Step 7
+### 3.19\*: Phonebook Database, step 7
 - Expand the backend validation to ensure the `name` field in the database contains at least three characters.
 - Modify the frontend to display error messages when validation fails.
 
-### 3.20\*: Phonebook Database, Step 8
+### 3.20\*: Phonebook Database, step 8
 - Add validation to ensure phone numbers in the phonebook are in the correct format:
     - Have a length of 8 or more characters.
     - Be formed of two parts separated by a hyphen (`-`), where the first part has two or three digits and the second part consists of digits. For example:

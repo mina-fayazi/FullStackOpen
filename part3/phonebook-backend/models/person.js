@@ -8,12 +8,12 @@ const url = process.env.MONGODB_URI
 
 mongoose
   .connect(url)
-    .then(result => {
-		console.log('connected to MongoDB')
-	})
-	.catch(error => {
-		console.log('error connecting to MongoDB:', error.message)
-	})
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch(error => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 const phoneRegex = /^\d{2,3}-\d+$/
 
@@ -25,7 +25,7 @@ const personSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-	required: [true, 'Phone number is required'],
+    required: [true, 'Phone number is required'],
     minlength: [8, 'Phone number must be at least 8 characters long'],
     validate: {
       validator: function (v) {

@@ -64,7 +64,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 // Define the route for adding a new phonebook entry
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -143,5 +143,5 @@ app.use(errorHandler)
 // Start the server
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })

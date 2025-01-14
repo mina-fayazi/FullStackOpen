@@ -32,3 +32,10 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - For an empty list, `totalLikes` returns `0`.
   - For a single blog post, `totalLikes` returns the correct like count.
   - For multiple blog posts, `totalLikes` correctly sums up the likes.
+
+### 4.5\*: Helper Functions and Unit Tests, step 3
+- Implement the `favoriteBlog` function to identify the blog post with the highest number of likes. The function returns an object with the blog's `title`, `author`, and `likes`.  
+- Write unit tests to validate the correct blog is returned for:
+  - An empty blog list (returns `null`).
+  - A single blog post.
+  - A list of multiple blog posts.

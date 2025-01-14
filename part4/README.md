@@ -39,3 +39,17 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - An empty blog list (returns `null`).
   - A single blog post.
   - A list of multiple blog posts.
+
+### 4.6\*: Helper Functions and Unit Tests, step 4
+- Create the `mostBlogs` function to find the author with the most blog posts. It returns an object with the author's name and their total number of blogs.  
+- Write unit tests to check if:
+  - The function handles an empty list by returning `null`.
+  - The author of a single blog is returned when there is only one entry.
+  - The correct author is returned for multiple blog entries. If there are multiple top bloggers, any one of them can be returned.
+
+### 4.7\*: Helper Functions and Unit Tests, step 5
+- Develop the `mostLikes` function to determine the author whose blog posts have the highest combined likes. It returns an object with the author's name and their total likes.  
+- Write unit tests to ensure:
+  - The function handles an empty list by returning `null`.
+  - The author of a single blog is returned when there is only one entry.
+  - The correct author is identified in a list of blog posts. If there are multiple top bloggers, any one of them can be returned.

@@ -8,17 +8,23 @@ const blogsRouter = require('./controllers/blogs')
 
 mongoose.set('strictQuery', false)
 
-mongoose.connect(config.MONGODB_URI)
-  .then(() => {
+const connectToDB = async () => {
+  try {
+    await mongoose.connect(config.MONGODB_URI)
     logger.info('Connected to MongoDB')
-  })
-  .catch((error) => {
+  } catch (error) {
     logger.error('Error connecting to MongoDB:', error.message)
-  })
+    process.exit(1)  // Exit the process if connection fails
+  }
+}
+
+// Connect to the database
+connectToDB()
 
 app.use(cors())
 app.use(express.json())
 
+// Route handlers
 app.use('/api/blogs', blogsRouter)
 
 module.exports = app

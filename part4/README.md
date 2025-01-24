@@ -53,3 +53,19 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - The function handles an empty list by returning `null`.
   - The author of a single blog is returned when there is only one entry.
   - The correct author is identified in a list of blog posts. If there are multiple top bloggers, any one of them can be returned.
+
+### 4.8: Blog List Tests, step 1
+- Set up a test environment:
+  - Configure a separate database for running tests.
+- Install and configure `SuperTest` to perform integration testing on the API in the `tests/blog_api.test.js` file:
+  - Make an HTTP `GET` request to the `/api/blogs` endpoint.
+  - Verify that the response contains the correct number of blog posts in JSON format.
+  - Run the tests using the command:
+  ```bash
+  npm test -- tests/blog_api.test.js
+  ```
+- Create a test helper module (`tests/test_helper.js`) to assist with setting up and tearing down test data:
+  - Define an array of `initialBlogs` to populate the database before tests.
+  - Implement a `blogsInDb` function to fetch all blogs from the database.
+  - Implement a `nonExistingId` function to generate a valid but non-existing blog ID for testing deletions.
+- Refactor route handler to use `async/await`.

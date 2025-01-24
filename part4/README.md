@@ -72,3 +72,9 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
 
 ### 4.9: Blog List Tests, step 2
 - Write a test to verify that the unique identifier property of blog posts is named `id`. By default, MongoDB uses `_id` as the identifier.
+
+### 4.10: Blog List Tests, step 3
+- Write a test to verify the HTTP `POST` request to the `/api/blogs` endpoint for creating a new blog post.
+- After the request is made, verify that the response has a status code of `201 Created`.
+- Check that the total number of blogs in the system has increased by one compared to the previous count.
+- Verify that the new blog post's title matches the data sent in the request.

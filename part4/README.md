@@ -78,3 +78,17 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
 - After the request is made, verify that the response has a status code of `201 Created`.
 - Check that the total number of blogs in the system has increased by one compared to the previous count.
 - Verify that the new blog post's title matches the data sent in the request.
+
+### 4.11\*: Blog List Tests, step 4
+- Update the blog model schema to include a default value of `0` for the `likes` property.
+- Create a test to send a blog post request without the `likes` field.  
+- Validate that the response status code is correct and the blog is added successfully.  
+- Retrieve all blogs from the database and check that the `likes` field is set to `0`.  
+
+### 4.12\*: Blog List Tests, step 5
+- Add the `express-async-errors` package to simplify asynchronous error handling and eliminate the need for explicit `try-catch` blocks in route handlers.
+- Introduce the `utils/middleware.js` module to contain an error handler function that catches validation errors and responds with a clear message.
+- Modify the blog schema to require `title` and `url` fields.
+- Write tests to send blog post requests missing the `title` and `url` fields separately.
+- Verify that the response contains an error message indicating the missing fields.
+- Ensure that no blog is added to the database when the request is invalid.

@@ -63,6 +63,58 @@ test('a valid blog post can be added', async () => {
   assert(titles.includes(newBlog.title), 'New blog title should be present in the database')
 })
 
+test('if likes property is missing, it defaults to 0', async () => {
+  const newBlog = {
+    title: 'Blog without Likes',
+    author: 'Unknown',
+    url: 'https://example.com/nolikes'
+  }
+  
+  // Send POST request to add new blog
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  // Ensure that the default likes value for the new blog is zero
+  assert.strictEqual(response.body.likes, 0, 'Default likes should be 0 when not provided')
+  
+  // Find the new blog in the database and ensure the value of likes equals to zero
+  const savedBlog = await Blog.findOne({ title: 'Blog without Likes' })
+  assert.strictEqual(savedBlog.likes, 0, 'Default likes should be 0 in database')
+})
+
+test('blog without title or url returns 400 Bad Request', async () => {
+  const blogWithoutTitle = {
+    author: 'Anonymous',
+    url: 'https://example.com/notitle',
+    likes: 5
+  }
+
+  // Send POST request for the blog without title
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutTitle)
+    .expect(400)
+
+  const blogWithoutUrl = {
+    title: 'Missing URL',
+    author: 'Anonymous',
+    likes: 3
+  }
+
+  // Send POST request for the blog without url
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutUrl)
+    .expect(400)
+
+  // Get blogs after the POST requests
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length, 'Invalid blogs should not be added')
+})
+
 after(async () => {
   await mongoose.connection.close()
 })

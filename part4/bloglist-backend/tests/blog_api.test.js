@@ -115,6 +115,57 @@ test('blog without title or url returns 400 Bad Request', async () => {
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length, 'Invalid blogs should not be added')
 })
 
+test('update a blog by id (update likes)', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updatedLikes = blogToUpdate.likes + 1
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send({ likes: updatedLikes })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(response.body.likes, updatedLikes, 'Likes should be updated')
+
+  // Ensure the blog is updated in the database
+  const blogAfterUpdate = await Blog.findById(blogToUpdate.id)
+  assert.strictEqual(blogAfterUpdate.likes, updatedLikes, 'Likes in the database should be updated')
+})
+
+test('update a blog returns 404 if blog does not exist', async () => {
+  const nonExistingId = await helper.nonExistingId()
+
+  await api
+    .put(`/api/blogs/${nonExistingId}`)
+    .send({ likes: 10 })
+    .expect(404)
+})
+
+test('delete a blog by id', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1, 'Blog count should decrease by one')
+
+  const titles = blogsAtEnd.map(b => b.title)
+  assert(!titles.includes(blogToDelete.title), 'Deleted blog should not be in the database')
+})
+
+test('delete a blog returns 404 if blog does not exist', async () => {
+  const nonExistingId = await helper.nonExistingId()
+
+  await api
+    .delete(`/api/blogs/${nonExistingId}`)
+    .expect(404)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })

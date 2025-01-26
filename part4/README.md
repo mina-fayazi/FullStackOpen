@@ -87,8 +87,29 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
 
 ### 4.12\*: Blog List Tests, step 5
 - Add the `express-async-errors` package to simplify asynchronous error handling and eliminate the need for explicit `try-catch` blocks in route handlers.
-- Introduce the `utils/middleware.js` module to contain an error handler function that catches validation errors and responds with a clear message.
 - Modify the blog schema to require `title` and `url` fields.
 - Write tests to send blog post requests missing the `title` and `url` fields separately.
 - Verify that the response contains an error message indicating the missing fields.
 - Ensure that no blog is added to the database when the request is invalid.
+
+### 4.13: Blog List Expansions, step 1
+- Implement the functionality to delete a single blog post using the `DELETE` HTTP method.
+- Follow RESTful conventions by implementing the `/api/blogs/:id` endpoint, where `:id` is the unique identifier of the blog post to be deleted.
+- Use the async/await syntax to handle asynchronous operations.
+- If the blog post is found and deleted successfully, return a status code of `204 No Content` indicating the deletion was successful.
+- If the blog post is not found, return a status code of `404 Not Found` along with an error message indicating that the blog post does not exist.
+- Write tests for the `DELETE` request to ensure:
+  - A blog post is successfully deleted when it exists.
+  - A `404 Not Found` response is returned when attempting to delete a non-existent blog post.
+  - The total number of blogs in the database decreases by one after a successful delete operation.
+
+### 4.14: Blog List Expansions, step 2
+- Implement the functionality to update the information of a blog post using the `PUT` HTTP method.
+- Implement the `/api/blogs/:id` endpoint, where `:id` is the unique identifier of the blog post to be updated.
+- The application primarily needs to update the `likes` property of a blog post.
+- If the blog post is found, update the `likes` field with the new value and return the updated blog post as the response with a status code of `200 OK`.
+- If the blog post is not found, return a `404 Not Found` response with an appropriate error message.
+- Write tests for the `PUT` request to ensure:
+  - A blog post's `likes` field is successfully updated when the blog post exists.
+  - A `404 Not Found` response is returned if the blog post does not exist.
+  - The updated `likes` value is correctly saved in the database.

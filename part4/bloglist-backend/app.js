@@ -6,7 +6,6 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 const blogsRouter = require('./controllers/blogs')
-const middleware = require('./utils/middleware')
 
 mongoose.set('strictQuery', false)
 
@@ -28,11 +27,5 @@ app.use(express.json())
 
 // Route handlers
 app.use('/api/blogs', blogsRouter)
-
-// Middleware for handling unknown endpoints
-app.use(middleware.unknownEndpoint)
-
-// Error handling middleware
-app.use(middleware.errorHandler)
 
 module.exports = app

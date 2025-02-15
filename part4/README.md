@@ -113,3 +113,27 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - A blog post's `likes` field is successfully updated when the blog post exists.
   - A `404 Not Found` response is returned if the blog post does not exist.
   - The updated `likes` value is correctly saved in the database.
+
+### 4.15: Blog List Expansions, step 3  
+- Implement the functionality to create new users using the `POST` HTTP method at the `/api/users` endpoint.  
+- Each user has the following fields:  
+  - `username` (required, unique)  
+  - `password` (required, must meet security requirements)  
+  - `name` (optional)  
+- Passwords must not be stored in plain text. Use the `bcrypt` library to hash passwords before saving them to the database.
+
+### 4.16\*: Blog List Expansions, step 4  
+- Add restrictions to user creation:  
+  - Both `username` and `password` must be provided.
+  - Both fields must be at least 3 characters long.
+  - The `username` must be unique.
+- If an invalid user is created, return a suitable status code (`400 Bad Request`) and an appropriate error message. 
+- Implement tests to verify: 
+  - A request with a username or password shorter than 3 characters results in a `400 Bad Request` response with an appropriate error message.  
+  - A request with a missing username or password results in a `400 Bad Request` response with an appropriate error message.  
+  - A request attempting to create a duplicate username results in a `400 Bad Request` response with an appropriate error message.
+  - The number of users in the database remains unchanged after a failed user creation attempt.
+- Run the tests using the command:
+	  ```bash
+	  npm test -- tests/user_api.test.js
+	  ```

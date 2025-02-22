@@ -165,3 +165,9 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - Identify the user from the token and designate them as the creator of the new blog.  
 - Ensure that the blog entry in the database includes a reference to the authenticated user.  
 
+### 4.20\*: Blog List Expansions, step 8
+- Refactor token extraction logic to `tokenExtractor` middleware:
+  - Move the logic for extracting the token from the `Authorization` header into a separate middleware function.
+  - The middleware should extract the token and attach it to the `request.token` field.
+  - The middleware should be registered in `app.js` before all routes to ensure the token is available to all route handlers.
+- In the route handler for blog creation (`POST /api/blogs`), access the token from `request.token` and use it to verify the user's identity and associate the user with the new blog.

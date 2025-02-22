@@ -3,15 +3,6 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-// Helper function to extract the token from the request headers
-const getTokenFrom = (request) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-
 // Get all blogs
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -23,9 +14,9 @@ blogsRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body
   
   // Verify token
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'Token invalid' })
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken) {
+    return response.status(401).json({ error: 'Token missing or invalid' })
   }
   
   // Find the user based on the decoded token

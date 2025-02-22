@@ -1,3 +1,15 @@
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('Authorization')
+  
+  if (authorization && authorization.startsWith('Bearer ')) {
+    request.token = authorization.replace('Bearer ', '')  // Extract the token (after 'Bearer ')
+  } else {
+    request.token = null  // If no token is found, set it to null
+  }
+
+  next()  // Move to the next middleware
+}
+
 const errorHandler = (error, request, response, next) => {
   //console.error(error.message) // Log error for debugging
 
@@ -16,4 +28,7 @@ const errorHandler = (error, request, response, next) => {
   next(error) // Pass error to default Express handler if not handled
 }
 
-module.exports = { errorHandler }
+module.exports = {
+  tokenExtractor,
+  errorHandler
+}

@@ -28,6 +28,9 @@ connectToDB()
 app.use(cors())
 app.use(express.json())
 
+// Register the tokenExtractor middleware before all routes
+app.use(middleware.tokenExtractor)
+
 // Route handlers
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)

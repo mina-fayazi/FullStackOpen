@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 
 // Get all blogs
 blogsRouter.get('/', async (request, response) => {
@@ -13,49 +11,37 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body
   
-  // Verify token
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken) {
-    return response.status(401).json({ error: 'Token missing or invalid' })
-  }
-  
-  // Find the user based on the decoded token
-  const user = await User.findById(decodedToken.id)
-  if (!user) {
-    return response.status(401).json({ error: 'User not found' })
-  }
-  
   // Ensure title and URL are provided for the new blog
   if (!title || !url) {
     return response.status(400).json({ error: 'Title and URL are required' })
   }
   
-  // Create the new blog post
+  // Create the new blog post with the user from the userExtractor middleware
   const blog = new Blog({
     title,
     author,
     url,
     likes: likes || 0,
-	user: user._id
+	user: request.user._id  // The user is available in request.user
   })
   
   // Save the blog and update user's blog list
   const savedBlog = await blog.save()
-  user.blogs = user.blogs.concat(savedBlog._id)
-  await user.save()
+  request.user.blogs = request.user.blogs.concat(savedBlog._id)
+  await request.user.save()
   
   response.status(201).json(savedBlog)
 })
 
 // Delete a blog by ID
 blogsRouter.delete('/:id', async (request, response) => {
-  const blog = await Blog.findByIdAndDelete(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  
+  // Ensure that the blog can be deleted only by the user who created it
+  if (blog.user.toString() !== request.user.id) return response.status(401).json({ error: 'Unauthorized' })
 
-  if (!blog) {
-    response.status(404).json({ error: 'Blog not found' })
-  } else {
-    response.status(204).end() // Successfully deleted
-  }
+  await Blog.findByIdAndDelete(request.params.id)
+  response.status(204).end() // Successfully deleted
 })
 
 // Update a blog by ID (specifically updating the number of likes)

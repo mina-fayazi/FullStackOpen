@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const middleware = require('../utils/middleware')
 
+// POST route for creating a new user (no token required)
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
   
@@ -30,7 +32,8 @@ usersRouter.post('/', async (request, response) => {
   response.status(201).json(savedUser)
 })
 
-usersRouter.get('/', async (request, response) => {
+// GET route for retrieving all users (token verification required)
+usersRouter.get('/', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
   const users = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1 })
   response.json(users)
 })

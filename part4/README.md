@@ -171,3 +171,16 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - The middleware should extract the token and attach it to the `request.token` field.
   - The middleware should be registered in `app.js` before all routes to ensure the token is available to all route handlers.
 - In the route handler for blog creation (`POST /api/blogs`), access the token from `request.token` and use it to verify the user's identity and associate the user with the new blog.
+
+### 4.21\*: Blog List Expansions, step 9
+- Modify the `DELETE /api/blogs/:id` route to ensure that a blog can only be deleted by the user who created it.
+  - The token sent with the request should be checked to confirm it matches the token of the user who created the blog.
+  - Fetch the blog from the database using `Blog.findById(id)`.
+  - The `blog.user` field contains an object, so use `blog.user.toString()` to compare it with the user’s ID from the token (which is a string).
+  - If the user does not match or the token is missing, return a suitable status code (`401 Unauthorized`).
+
+### 4.22\*: Blog List Expansions, step 10
+- Create a new middleware function `userExtractor` that extracts the user from the token and attaches it to the `request.user` field.
+  - The `userExtractor` middleware should decode the token and look up the user in the database using the ID stored in the token.
+  - Register the `userExtractor` middleware globally or only for the `/api/blogs` routes (depending on the desired scope).
+- In the `POST /api/blogs` and `DELETE /api/blogs/:id` route handlers, access the `request.user` field to retrieve the user and perform necessary actions (like associating the user with a new blog or checking the user before deleting a blog).

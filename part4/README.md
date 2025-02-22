@@ -148,3 +148,20 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - Include in the response all blogs created by each user.  
   - Each user’s blogs should contain relevant blog details instead of just their IDs.  
 - Add tests in the `tests/blog_api.test.js` file to ensure the above changes work properly.
+
+### 4.18: Blog List Expansions, step 6  
+- Implement token-based authentication using `JSON Web Tokens (JWT)`.  
+- Add a new file: `controllers/login.js` to handle user login.  
+- Modify the login endpoint (`POST /api/login`) to:  
+  - Validate the provided username and password.  
+  - Generate a signed JWT token containing the user's ID and username.  
+  - Return the token along with user details in the response.  
+- Store the token on the client side and include it in the `Authorization` header (`Bearer <token>`) when making requests requiring authentication.   
+
+### 4.19: Blog List Expansions, step 7  
+- Modify the blog creation functionality (`POST /api/blogs`):  
+  - Require a valid token in the request `Authorization` header.  
+  - Extract and verify the token before processing the request.  
+  - Identify the user from the token and designate them as the creator of the new blog.  
+- Ensure that the blog entry in the database includes a reference to the authenticated user.  
+

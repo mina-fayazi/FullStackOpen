@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
@@ -11,8 +12,14 @@ const api = supertest(app)
 // Reset the database before each test
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await User.deleteMany({})
   
-  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+  // Create a user before adding blogs
+  const user = new User({ username: 'testuser', name: 'Test User', passwordHash: 'hashedpassword' })
+  const savedUser = await user.save()
+  
+  // Attach user ID to blogs
+  const blogObjects = helper.initialBlogs.map(blog => new Blog({ ...blog, user: savedUser._id }))
   const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
 })
@@ -164,6 +171,55 @@ test('delete a blog returns 404 if blog does not exist', async () => {
   await api
     .delete(`/api/blogs/${nonExistingId}`)
     .expect(404)
+})
+
+test('blogs include user information', async () => {
+  const response = await api.get('/api/blogs')
+  assert.strictEqual(response.status, 200)
+
+  response.body.forEach(blog => {
+    assert(blog.user, 'Blog should have a user field')
+    assert.strictEqual(typeof blog.user, 'object', 'User field should be an object')
+    assert(blog.user.username, 'User object should contain username')
+    assert(blog.user.name, 'User object should contain name')
+  })
+})
+
+test('a valid blog post is assigned a user', async () => {
+  const users = await User.find({})
+  assert(users.length > 0, 'At least one user should exist')
+
+  const newBlog = {
+    title: 'New Blog with User',
+    author: 'New Author',
+    url: 'https://example.com/userblog',
+    likes: 5
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  assert(response.body.user, 'New blog should have a user assigned')
+  
+  const savedBlog = await Blog.findById(response.body.id).populate('user')
+  assert.strictEqual(savedBlog.user.username, users[0].username, 'Blog should be assigned to an existing user')
+})
+
+test('users include their created blogs', async () => {
+  const response = await api.get('/api/users')
+  assert.strictEqual(response.status, 200)
+
+  response.body.forEach(user => {
+    assert(Array.isArray(user.blogs), 'User should have a blogs array')
+    
+    user.blogs.forEach(blog => {
+      assert(blog.title, 'Blog should have a title')
+      assert(blog.url, 'Blog should have a URL')
+    })
+  })
 })
 
 after(async () => {

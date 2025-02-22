@@ -134,6 +134,17 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - A request attempting to create a duplicate username results in a `400 Bad Request` response with an appropriate error message.
   - The number of users in the database remains unchanged after a failed user creation attempt.
 - Run the tests using the command:
-	  ```bash
-	  npm test -- tests/user_api.test.js
-	  ```
+  ```bash
+  npm test -- tests/user_api.test.js
+  ```
+
+### 4.17: Blog List Expansions, step 5    
+- Modify the functionality for adding new blogs (`POST /api/blogs`):  
+  - When a new blog is created, assign an existing user (for now, the first one found in the database) from the database as its creator.    
+- Modify the functionality for listing all blogs (`GET /api/blogs`):  
+  - Ensure that the user who created the blog is included in the response.  
+  - Use Mongoose’s `.populate()` method to fetch user details instead of just storing the user’s ID.  
+- Modify the functionality for listing all users (`GET /api/users`):  
+  - Include in the response all blogs created by each user.  
+  - Each user’s blogs should contain relevant blog details instead of just their IDs.  
+- Add tests in the `tests/blog_api.test.js` file to ensure the above changes work properly.

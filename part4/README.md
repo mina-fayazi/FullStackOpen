@@ -184,3 +184,8 @@ This directory contains the exercises for Part 4 of the FullStackOpen course.
   - The `userExtractor` middleware should decode the token and look up the user in the database using the ID stored in the token.
   - Register the `userExtractor` middleware globally or only for the `/api/blogs` routes (depending on the desired scope).
 - In the `POST /api/blogs` and `DELETE /api/blogs/:id` route handlers, access the `request.user` field to retrieve the user and perform necessary actions (like associating the user with a new blog or checking the user before deleting a blog).
+
+### 4.23\*: Blog List Expansions, step 11
+- Fix the broken tests for adding a new blog after implementing token-based authentication.
+- Write a new test case to verify that adding a blog fails with a `401 Unauthorized` status code if no token is provided.
+- Modify the test setup to handle token generation and user authentication properly.

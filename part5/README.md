@@ -52,3 +52,8 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - Calls a function passed via props to handle blog creation.
 - Maintain the toggle visibility functionality using the `Togglable` component.
 
+### 5.7: Blog List Frontend, step 7
+- Add a toggle button to each blog post that controls the visibility of its details, the URL and the number of likes with a `Like` button.
+- At this stage, the like button does not need to function.
+- Use inline styles to improve the appearance of the blogs.
+- Since this functionality differs slightly from the `Togglable` component, implement a separate state inside the Blog component to track visibility.

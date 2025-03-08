@@ -37,3 +37,18 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 - Color coding for the notifications are:
   - **Green** for success messages.
   - **Red** for error messages.
+
+### 5.5: Blog List Frontend, step 5
+- Modify the blog creation form visibility. Use the `Togglable` component to toggle its visibility:
+  - By default, the form is not visible.
+  - Clicking the `New Blog` button expands the form.
+  - After successfully creating a blog, the form hides automatically.
+
+### 5.6: Blog List Frontend, step 6
+- Refactor the blog creation form into its own component (`BlogForm`).
+- Move all related states and handlers inside the `BlogForm` component.
+- Ensure the component:
+  - Uses `useState` for input fields.
+  - Calls a function passed via props to handle blog creation.
+- Maintain the toggle visibility functionality using the `Togglable` component.
+

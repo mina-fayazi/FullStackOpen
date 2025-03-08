@@ -140,11 +140,16 @@ const App = () => {
     </Togglable>
   )
   
+  // Updates a blog's likes in the frontend state
+  const updateBlog = (updatedBlog) => {
+    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+  }
+  
   // Renders the list of blogs.
   const blogList = () => (
     <div>
 	  {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} showNotification={showNotification} />
       )}
 	</div>
   )

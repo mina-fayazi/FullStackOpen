@@ -56,4 +56,17 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 - Add a toggle button to each blog post that controls the visibility of its details, the URL and the number of likes with a `Like` button.
 - At this stage, the like button does not need to function.
 - Use inline styles to improve the appearance of the blogs.
-- Since this functionality differs slightly from the `Togglable` component, implement a separate state inside the Blog component to track visibility.
+- Since this functionality differs slightly from the `Togglable` component, implement a separate state inside the `Blog` component to track visibility.
+
+### 5.8: Blog List Frontend, step 8
+- Implement the `Like` button functionality:
+  - Clicking the **like button** should increase the number of likes.
+  - Send an HTTP `PUT` request to update the blog in the backend.
+  - The request should include all blog fields, with the likes count incremented.
+- Ensure the backend correctly handles the user reference when updating likes.
+
+### 5.9: Blog List Frontend, step 9
+- When a blog is liked, the name of the user who created the blog disappears but reappears after a browser refresh.
+- Identify and fix the issue where user information does not display correctly after liking a blog by ensuring:
+  - The entire blog object is correctly updated in the frontend.
+  - The blog includes the user data when updating likes.

@@ -48,16 +48,34 @@ blogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end() // Successfully deleted
 })
 
-// Update a blog by ID (specifically updating the number of likes)
+// Update a blog's likes by ID (replacing the entire blog object)
 blogsRouter.put('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
+  const { title, author, url, likes, user } = request.body
+  
+  // Construct the new blog object
+  const updatedBlogData = {
+    title,
+    author,
+    url,
+    likes,
+    user: typeof user === 'object' ? user.id : user, // Ensure it's just the ID
+  }
 
-  if (!blog) {
-    response.status(404).json({ error: 'Blog not found' })
-  } else {
-    blog.likes = request.body.likes
-    const updatedBlog = await blog.save()
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      updatedBlogData,
+      { new: true, runValidators: true } // Return updated blog & validate data
+    ).populate('user', { username: 1, name: 1 }) // Fetch full user details
+
+    if (!updatedBlog) {
+      return response.status(404).json({ error: 'Blog not found' })
+    }
+
     response.json(updatedBlog)
+	
+  } catch (error) {
+    response.status(400).json({ error: 'Invalid blog data' })
   }
 })
 

@@ -60,7 +60,7 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 
 ### 5.8: Blog List Frontend, step 8
 - Implement the `Like` button functionality:
-  - Clicking the **like button** should increase the number of likes.
+  - Clicking the like button should increase the number of likes.
   - Send an HTTP `PUT` request to update the blog in the backend.
   - The request should include all blog fields, with the likes count incremented.
 - Ensure the backend correctly handles the user reference when updating likes.
@@ -70,3 +70,16 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 - Identify and fix the issue where user information does not display correctly after liking a blog by ensuring:
   - The entire blog object is correctly updated in the frontend.
   - The blog includes the user data when updating likes.
+
+### 5.10: Blog List Frontend, step 10
+- Modify the application to sort blogs by the number of likes in descending order.
+- Use the array `.sort()` method to achieve this.
+- Ensure the sorting updates dynamically when likes change.
+
+### 5.11: Blog List Frontend, step 11
+- Implement blog deletion functionality:
+  - Add a delete button for each blog.
+  - Clicking the button should remove the blog from the backend and update the UI.
+  - Use `window.confirm()` to ask for confirmation before deleting.
+- Ensure that only the user who created the blog sees the delete button.
+- After deletion, update the blog list to reflect changes without requiring a page refresh.

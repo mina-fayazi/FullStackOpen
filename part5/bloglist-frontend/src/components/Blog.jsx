@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlog, showNotification }) => {
+const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
   const [visible, setVisible] = useState(false)
   
   // Handles like button click, sending a PUT request to update likes
@@ -41,6 +41,9 @@ const Blog = ({ blog, updateBlog, showNotification }) => {
           <p>{blog.url}</p>
           <p>Likes: {blog.likes} <button onClick={handleLike}>Like</button></p>
 		  <p>Added by: {blog.user?.name || 'Unknown'}</p> {/* Display the name of the user who created the blog */}
+		  {user?.username === blog.user?.username && (
+            <button onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>Delete</button>
+          )}
         </div>
       )}
     </div>

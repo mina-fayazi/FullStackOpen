@@ -105,6 +105,24 @@ const App = () => {
     }
   }
   
+  // Updates a blog's likes in the frontend state.
+  const updateBlog = (updatedBlog) => {
+    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+  }
+  
+  // Deletes a blog post in the frontend.
+  const deleteBlog = async (id, title, author) => {
+    if (window.confirm(`Remove blog "${title}" by ${author}?`)) {
+      try {
+        await blogService.remove(id)
+        setBlogs(blogs.filter(blog => blog.id !== id))
+        showNotification(`Deleted blog "${title}" by ${author}`)
+      } catch (error) {
+        showNotification('Error deleting blog', 'error')
+      }
+    }
+  }
+  
   // Renders the login form.
   const loginForm = () => (
     <div>
@@ -140,17 +158,23 @@ const App = () => {
     </Togglable>
   )
   
-  // Updates a blog's likes in the frontend state
-  const updateBlog = (updatedBlog) => {
-    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
-  }
-  
   // Renders the list of blogs.
   const blogList = () => (
     <div>
-	  {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} showNotification={showNotification} />
-      )}
+	  {blogs
+        .slice()
+        .sort((a, b) => b.likes - a.likes) // Sort blogs by likes in descending order
+        .map(blog => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            updateBlog={updateBlog}
+            deleteBlog={deleteBlog}
+            user={user}
+			showNotification={showNotification}
+          />
+        ))
+	  }
 	</div>
   )
 

@@ -83,3 +83,11 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - Use `window.confirm()` to ask for confirmation before deleting.
 - Ensure that only the user who created the blog sees the delete button.
 - After deletion, update the blog list to reflect changes without requiring a page refresh.
+
+### 5.12: Blog List Frontend, step 12
+- Define PropTypes for the `Togglable` and `LoginForm` components:
+  - PropTypes ensure that the correct data types are being passed to the components, which can help prevent bugs and improve the maintainability of the code.
+  - This is particularly useful when the components rely on specific data types to function correctly.
+- Add `ESLint` to the project and fix all of the linter errors:
+  - Vite has already installed ESLint by default, so the next task is to define the desired configuration in the `.eslintrc.cjs` file.
+  - Once ESLint configuration is added, run ESLint to detect and fix any issues in the code.

@@ -31,7 +31,7 @@ const blogsInDb = async () => {
 }
 
 module.exports = {
-  initialBlogs, 
-  nonExistingId, 
+  initialBlogs,
+  nonExistingId,
   blogsInDb
 }

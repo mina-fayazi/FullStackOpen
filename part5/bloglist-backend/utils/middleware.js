@@ -4,7 +4,7 @@ const User = require('../models/user')
 // tokenExtractor middleware
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('Authorization')
-  
+
   if (authorization && authorization.startsWith('Bearer ')) {
     request.token = authorization.replace('Bearer ', '')  // Extract the token (after 'Bearer ')
   } else {
@@ -21,7 +21,7 @@ const userExtractor = async (request, response, next) => {
   if (!decodedToken) {
     return response.status(401).json({ error: 'Token missing or invalid' })
   }
-  
+
   // Find the user based on the decoded token
   request.user = await User.findById(decodedToken.id)
   next()

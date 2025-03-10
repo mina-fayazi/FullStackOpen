@@ -36,7 +36,7 @@ const update = async (id, updatedBlog) => {
   const response = await axios.put(`${baseUrl}/${id}`, updatedBlog, config)
   return response.data
 }
- // Remove a blog post by the user who created it
+// Remove a blog post by the user who created it
 const remove = async (id) => {
   const config = {
     headers: { Authorization: token },

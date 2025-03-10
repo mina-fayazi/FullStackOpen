@@ -10,37 +10,37 @@ blogsRouter.get('/', async (request, response) => {
 // Post a new blog
 blogsRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body
-  
+
   // Ensure title and URL are provided for the new blog
   if (!title || !url) {
     return response.status(400).json({ error: 'Title and URL are required' })
   }
-  
+
   // Create the new blog post with the user from the userExtractor middleware
   const blog = new Blog({
     title,
     author,
     url,
     likes: likes || 0,
-	user: request.user._id  // The user is available in request.user
+    user: request.user._id  // The user is available in request.user
   })
-  
+
   // Save the blog and update user's blog list
   const savedBlog = await blog.save()
   request.user.blogs = request.user.blogs.concat(savedBlog._id)
   await request.user.save()
-  
+
   response.status(201).json(savedBlog)
 })
 
 // Delete a blog by ID
 blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
-  
+
   if (!blog) {
     return response.status(404).json({ error: 'Blog not found' })
   }
-  
+
   // Ensure that the blog can be deleted only by the user who created it
   if (blog.user.toString() !== request.user.id) return response.status(401).json({ error: 'Unauthorized' })
 
@@ -51,7 +51,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 // Update a blog's likes by ID (replacing the entire blog object)
 blogsRouter.put('/:id', async (request, response) => {
   const { title, author, url, likes, user } = request.body
-  
+
   // Construct the new blog object
   const updatedBlogData = {
     title,
@@ -73,7 +73,7 @@ blogsRouter.put('/:id', async (request, response) => {
     }
 
     response.json(updatedBlog)
-	
+
   } catch (error) {
     response.status(400).json({ error: 'Invalid blog data' })
   }

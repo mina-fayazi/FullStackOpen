@@ -14,8 +14,8 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-	<div>
-	  <h2>Create a new blog</h2>
+    <div>
+      <h2>Create a new blog</h2>
       <form onSubmit={handleCreateBlog}>
         <div>
           Title: <input value={title} onChange={event => setTitle(event.target.value)} />
@@ -28,7 +28,7 @@ const BlogForm = ({ createBlog }) => {
         </div>
         <button type="submit">Create</button>
       </form>
-	</div>
+    </div>
   )
 }
 

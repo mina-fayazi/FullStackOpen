@@ -85,9 +85,21 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 - After deletion, update the blog list to reflect changes without requiring a page refresh.
 
 ### 5.12: Blog List Frontend, step 12
-- Define PropTypes for the `Togglable` and `LoginForm` components:
+- Define `PropTypes` for the `Togglable` and `LoginForm` components:
   - PropTypes ensure that the correct data types are being passed to the components, which can help prevent bugs and improve the maintainability of the code.
   - This is particularly useful when the components rely on specific data types to function correctly.
 - Add `ESLint` to the project and fix all of the linter errors:
   - Vite has already installed ESLint by default, so the next task is to define the desired configuration in the `.eslintrc.cjs` file.
-  - Once ESLint configuration is added, run ESLint to detect and fix any issues in the code.
+  - Once ESLint configuration is added, run this command to detect and fix any issues in the code:  
+  	  ```bash
+	  npm run lint:fix
+	  ```
+
+### 5.13: Blog List Tests, step 1
+- Write a test for the `Blog` component in the `bloglist-frontend/src/components/Blog.test.jsx` file to ensure that only the blog's `title` and `author` are displayed by default, while the `URL` and `likes` remain hidden.
+- Use CSS classes to distinguish between the summary and detailed views of the blog:
+  - The default visible content (title and author) is wrapped in a `.blog-summary` class.
+  - The hidden content (URL and likes) that is shown only when toggled is wrapped in a `.blog-details` class.
+- The test verifies:
+  - The presence of the title and author in the rendered output.
+  - The absence of URL and likes in the DOM before interaction.

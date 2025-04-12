@@ -23,21 +23,21 @@ const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
   }
 
   return (
-    <div style={{
+    <div className="blog" style={{
       paddingTop: 10,
       paddingLeft: 2,
       border: 'solid',
       borderWidth: 1,
       marginBottom: 5
     }}>
-      <div>
+      <div className="blog-summary">
         {blog.title} {blog.author}{' '}
         <button onClick={() => setVisible(!visible)}>
           {visible ? 'Hide' : 'View'}
         </button>
       </div>
       {visible && (
-        <div>
+        <div className="blog-details">
           <p>{blog.url}</p>
           <p>Likes: {blog.likes} <button onClick={handleLike}>Like</button></p>
           <p>Added by: {blog.user?.name || 'Unknown'}</p> {/* Display the name of the user who created the blog */}

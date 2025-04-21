@@ -1,25 +1,18 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
 const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
   const [visible, setVisible] = useState(false)
 
   // Handles like button click, sending a PUT request to update likes
-  const handleLike = async () => {
+  const handleLike = () => {
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1,
       user: blog.user, // Keep the full user object
     }
 
-    try {
-      const returnedBlog = await blogService.update(blog.id, updatedBlog)
-      updateBlog(returnedBlog) // Update the blog list in App.jsx
-      showNotification(`Liked: ${blog.title} by ${blog.author}`, 'success')
-    } catch (error) {
-      //console.error('Error updating likes:', error)
-      showNotification('Error updating blog likes', 'error')
-    }
+    updateBlog(updatedBlog)
+
   }
 
   return (

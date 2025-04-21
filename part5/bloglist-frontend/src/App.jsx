@@ -116,9 +116,15 @@ const App = () => {
     }
   }
 
-  // Updates a blog's likes in the frontend state.
-  const updateBlog = (updatedBlog) => {
-    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+  // Updates a blog's likes in the backend and frontend state.
+  const updateBlog = async (updatedBlog) => {
+    try {
+      const returnedBlog = await blogService.update(updatedBlog.id, updatedBlog)
+      setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? returnedBlog : blog))
+      showNotification(`Liked: ${returnedBlog.title} by ${returnedBlog.author}`, 'success')
+    } catch (error) {
+      showNotification('Error updating blog likes', 'error')
+    }
   }
 
   // Deletes a blog post in the frontend.

@@ -96,10 +96,35 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 	  ```
 
 ### 5.13: Blog List Tests, step 1
-- Write a test for the `Blog` component in the `bloglist-frontend/src/components/Blog.test.jsx` file to ensure that only the blog's `title` and `author` are displayed by default, while the `URL` and `likes` remain hidden.
+- Write a test for the `Blog` component in the `bloglist-frontend/src/components/Blog.test.jsx` file to ensure that only the blog's `title` and `author` are displayed by default, while the `url` and `likes` remain hidden.
 - Use CSS classes to distinguish between the summary and detailed views of the blog:
   - The default visible content (title and author) is wrapped in a `.blog-summary` class.
   - The hidden content (URL and likes) that is shown only when toggled is wrapped in a `.blog-details` class.
 - The test verifies:
   - The presence of the title and author in the rendered output.
   - The absence of URL and likes in the DOM before interaction.
+- Run the tests using the following command:
+  ```bash
+  npm test
+  ```
+
+### 5.14: Blog List Tests, step 2
+- Extend the test for the `Blog` component to verify that the blog's `URL` and number of `likes` are shown after the user clicks the button that reveals additional details (e.g., the `View` button).
+- The test simulates a user clicking the `View` button and asserts that:
+  - The blog's `URL` is displayed in the DOM.
+  - The number of `likes` is shown correctly.
+
+### 5.15: Blog List Tests, step 3
+- Add a test that ensures clicking the blog's `Like` button twice calls the event handler twice.
+- Use a mock function for the `updateBlog` handler prop to monitor how many times it's called.
+- Simulate a user:
+  - Clicking the `View` button to reveal the `Like` button.
+  - Clicking the `Like` button two times.
+- The test asserts that the mock function is called exactly two times.
+
+### 5.16: Blog List Tests, step 4
+- Write a test for the `BlogForm` component to ensure that when a new blog is submitted, the form correctly calls the `createBlog` event handler prop with the expected data.
+- Use placeholder texts to select input fields and simulate filling out the form.
+- The test verifies:
+  - The handler is called once upon submission.
+  - The object passed to the handler matches the user input.

@@ -109,9 +109,9 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   ```
 
 ### 5.14: Blog List Tests, step 2
-- Extend the test for the `Blog` component to verify that the blog's `URL` and number of `likes` are shown after the user clicks the button that reveals additional details (e.g., the `View` button).
+- Extend the test for the `Blog` component to verify that the blog's URL and number of likes are shown after the user clicks the button that reveals additional details (e.g., the `View` button).
 - The test simulates a user clicking the `View` button and asserts that:
-  - The blog's `URL` is displayed in the DOM.
+  - The blog's `url` is displayed in the DOM.
   - The number of `likes` is shown correctly.
 
 ### 5.15: Blog List Tests, step 3
@@ -128,3 +128,15 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
 - The test verifies:
   - The handler is called once upon submission.
   - The object passed to the handler matches the user input.
+
+### 5.17: Blog List End To End Testing, step 1
+- Initialize a new npm project for end-to-end testing by using `Playwright` in the `bloglist-e2e` directory.
+- Test the application to ensure the login form is shown by default when visiting the front page.
+- The test verifies that the username input, password input, and login button are all visible to the user upon page load.
+
+### 5.18: Blog List End To End Testing, step 2
+- Add two separate tests:
+  - One to verify successful login using correct credentials. The test checks for a confirmation message and ensures it is styled correctly.
+  - Another to verify that login fails with incorrect credentials. It checks for an error message and ensures the message is correctly styled and that no success message appears.
+- The database is reset before each test to ensure a clean state.
+- A test user is created before each test to simulate real user interaction.

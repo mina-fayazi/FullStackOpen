@@ -16,7 +16,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
   }
 
   return (
-    <div className="blog" style={{
+    <div className="blog" data-testid="blog" style={{
       paddingTop: 10,
       paddingLeft: 2,
       border: 'solid',
@@ -32,14 +32,14 @@ const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
       {visible && (
         <div className="blog-details">
           <p>{blog.url}</p>
-          <p>Likes: {blog.likes} <button onClick={handleLike}>Like</button></p>
+          <p>Likes: {blog.likes} <button data-testid="like-button" onClick={handleLike}>Like</button></p>
           <p>Added by: {blog.user?.name || 'Unknown'}</p> {/* Display the name of the user who created the blog */}
           {user?.username === (
             typeof blog.user === 'object'
               ? blog.user?.username  // If blog.user is an object, use its username
               : user?.username       // If blog.user is just an ID (string), assume it belongs to the logged-in user
           ) && (
-            <button onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>Delete</button>
+            <button data-testid="delete-button" onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>Delete</button>
           )}
         </div>
       )}

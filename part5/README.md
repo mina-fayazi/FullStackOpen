@@ -130,7 +130,7 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - The object passed to the handler matches the user input.
 
 ### 5.17: Blog List End To End Testing, step 1
-- Initialize a new npm project for end-to-end testing by using `Playwright` in the `bloglist-e2e` directory.
+- Initialize a new npm project for end-to-end testing using `Playwright` in the `bloglist-e2e` directory.
 - Test the application to ensure the login form is shown by default when visiting the front page.
 - The test verifies that the username input, password input, and login button are all visible to the user upon page load.
 
@@ -140,3 +140,17 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - Another to verify that login fails with incorrect credentials. It checks for an error message and ensures the message is correctly styled and that no success message appears.
 - The database is reset before each test to ensure a clean state.
 - A test user is created before each test to simulate real user interaction.
+
+### 5.19: Blog List End To End Testing, step 3
+- Add a test that verifies a logged-in user can create a new blog.
+- The test should:
+  - Log in to the application.
+  - Fill out and submit the form for creating a blog.
+  - Confirm that the newly created blog appears in the list of blogs.
+
+### 5.20: Blog List End To End Testing, step 4
+- Create a test to verify that a user can like a blog.
+- The test should:
+  - Ensure the user is logged in and a blog is already created.
+  - Expand the blog details to reveal the "Like" button.
+  - Click the "Like" button and verify that the like count increases by 1.

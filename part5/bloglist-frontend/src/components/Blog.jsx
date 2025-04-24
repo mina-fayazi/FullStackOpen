@@ -24,7 +24,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
       marginBottom: 5
     }}>
       <div className="blog-summary">
-        {blog.title} {blog.author}{' '}
+        <span data-testid="blog-title">{blog.title}</span> {blog.author}{' '}
         <button onClick={() => setVisible(!visible)}>
           {visible ? 'Hide' : 'View'}
         </button>

@@ -141,6 +141,61 @@ describe('Blog app', () => {
       await blog.getByRole('button', { name: 'View' }).click()
       await expect(blog.getByTestId('delete-button')).toHaveCount(0)
     })
+	
+    test('blogs are ordered by likes (most first)', async ({ page }) => {
+      // Create three blogs
+      const blogs = [
+        { title: 'Least Liked', author: 'Author', url: 'http://1.com' },
+        { title: 'Medium Liked', author: 'Author', url: 'http://2.com' },
+        { title: 'Most Liked', author: 'Author', url: 'http://3.com' },
+      ]
+      for (const blog of blogs) {
+        await createBlog(page, blog)
+      }
+      
+      // Click the "View" button for each blog to reveal the details
+      for (const { title } of blogs) {
+        const blog = page.locator('[data-testid="blog"]').filter({ hasText: title })
+        await blog.getByRole('button', { name: 'View' }).click()
+      }
+	  
+      // Like each blog with controlled delay and await DOM update
+      const likeBlog = async (title, times) => {
+        const blog = page.locator('[data-testid="blog"]').filter({ hasText: title })
+        const likeButton = blog.getByTestId('like-button')
+        const likeText = blog.getByText(/Likes:/)
+      
+        for (let i = 0; i < times; i++) {
+          await likeButton.click()
+          await expect(likeText).toContainText(`${i + 1}`) // Wait until the UI reflects the new like
+        }
+      }
+    
+      // Like 'Most Liked' 3 times
+      await likeBlog('Most Liked', 3)
+    
+      // Like 'Medium Liked' 2 times
+      await likeBlog('Medium Liked', 2)
+    
+      // Like 'Least Liked' 1 time
+      await likeBlog('Least Liked', 1)
+    
+      // Wait a little to ensure any final re-renders are done
+      await page.waitForTimeout(500)
+      
+      // Check the order of blog titles by their position in the DOM
+      const blogTitlesInOrder = await page.$$eval(
+        '[data-testid="blog-title"]',
+        titles => titles.map(t => t.textContent.trim())
+      )
+      
+      // Ensure that the blogs are in the correct order
+      expect(blogTitlesInOrder).toEqual([
+        'Most Liked',
+        'Medium Liked',
+        'Least Liked'
+      ])
+    })
 
   })
   

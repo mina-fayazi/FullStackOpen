@@ -170,3 +170,13 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - Log out and register a new user.
   - Log in as the new user.
   - Expand the blog details and verify that the "Delete" button is not displayed.
+
+### 5.23: Blog List End To End Testing, step 7
+- Add a test to ensure that blogs are displayed in descending order based on the number of likes.
+- The test should:
+  - Log in as a user and create multiple blogs.
+  - Expand each blog and click the "Like" button a different number of times to assign them varying like counts.
+  - Optionally wait for like updates to reflect (e.g., via UI wait or small timeout).
+  - After liking, verify that blogs are displayed in the correct order:
+    - The blog with the most likes should appear first.
+    - The rest should follow in descending order of their like counts.

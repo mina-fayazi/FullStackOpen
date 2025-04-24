@@ -154,3 +154,19 @@ This directory contains the exercises for Part 5 of the FullStackOpen course.
   - Ensure the user is logged in and a blog is already created.
   - Expand the blog details to reveal the "Like" button.
   - Click the "Like" button and verify that the like count increases by 1.
+
+### 5.21: Blog List End To End Testing, step 5
+- Add a test to ensure that the user who created a blog can delete it.
+- The test should:
+  - Log in as a user and create a blog.
+  - Expand the blog details to reveal the "Delete" button.
+  - Handle the browser's `window.confirm` dialog to confirm the deletion.
+  - Verify that the blog is no longer visible in the list after deletion.
+
+### 5.22: Blog List End To End Testing, step 6
+- Add a test to ensure that only the user who created a blog can see its delete button.
+- The test should:
+  - Log in as the original user and create a blog.
+  - Log out and register a new user.
+  - Log in as the new user.
+  - Expand the blog details and verify that the "Delete" button is not displayed.

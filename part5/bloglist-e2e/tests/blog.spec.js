@@ -74,7 +74,7 @@ describe('Blog app', () => {
       await expect(blogItems.filter({ hasText: 'A blog created by playwright testing' })).toBeVisible()
     })
 	
-	test('user can like a blog', async ({ page }) => {
+    test('user can like a blog', async ({ page }) => {
       await createBlog(page, {
         title: 'Blog to Like',
         author: 'Author',
@@ -82,16 +82,64 @@ describe('Blog app', () => {
       })
     
       // Find the created blog and click on the "View" button to show the "Like" button
-	  const blog = page.locator('[data-testid="blog"]').filter({ hasText: 'Blog to Like' })
+      const blog = page.locator('[data-testid="blog"]').filter({ hasText: 'Blog to Like' })
       await blog.getByRole('button', { name: 'View' }).click()
       
       // Check the number of likes to be 0
-	  const likeCount = blog.getByText(/Likes:/)
+      const likeCount = blog.getByText(/Likes:/)
       await expect(likeCount).toContainText('0')
     
       // Click on the "Like" button and check if the number of likes has increased by one
-	  await blog.getByTestId('like-button').click()
+      await blog.getByTestId('like-button').click()
       await expect(likeCount).toContainText('1')
+    })
+    
+    test('creator can delete their blog', async ({ page }) => {
+      await createBlog(page, {
+        title: 'Blog to Delete',
+        author: 'Author',
+        url: 'http://delete.com'
+      })
+    
+      // Find the created blog and click on the "View" button to show the details
+      const blog = page.locator('[data-testid="blog"]').filter({ hasText: 'Blog to Delete' })
+      await blog.getByRole('button', { name: 'View' }).click()
+    
+      // Dialog handler for accepting window.confirm to delete the blog
+      page.once('dialog', dialog => dialog.accept())
+      await blog.getByTestId('delete-button').click()
+    
+      // Make sure that the blog is removed from the list
+      await expect(page.locator('.blog-summary').filter({ hasText: 'Blog to Delete' })).not.toBeVisible()
+    })
+	
+    test('only creator sees delete button', async ({ page, request }) => {
+      // Create a blog as testuser
+      await createBlog(page, {
+        title: 'Creator Only Delete',
+        author: 'Author',
+        url: 'http://private-delete.com'
+      })
+    
+      // Logout
+      await page.getByRole('button', { name: 'Logout' }).click()
+    
+      // Create second user
+      await request.post('/api/users', {
+        data: {
+          name: 'Second User',
+          username: 'seconduser',
+          password: 'secondpass'
+        }
+      })
+    
+      // Login as second user
+      await loginWith(page, 'seconduser', 'secondpass')
+      
+      // Make sure that the "Delete" button is not displayed for the second user
+      const blog = page.locator('[data-testid="blog"]').filter({ hasText: 'Creator Only Delete' })
+      await blog.getByRole('button', { name: 'View' }).click()
+      await expect(blog.getByTestId('delete-button')).toHaveCount(0)
     })
 
   })

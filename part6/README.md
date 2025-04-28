@@ -5,7 +5,7 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 ## Exercises
 
 ### 6.1: Unicafe Revisited, step 1
-- Implement the reducer for managing feedback counts using the `Redux` library:
+- Implement the reducer for managing feedback counts using the `Redux` library for the unicafe project from part 1:
   - The state should contain counts for good, neutral (ok), and bad feedback.
   - Ensure the reducer returns the correct initial state when called with undefined state.
   - Ensure the reducer updates the correct feedback count based on the dispatched action.
@@ -18,3 +18,28 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
   - Add buttons for giving good, neutral, and bad feedback.
   - Add a button for resetting the feedback statistics to zero.
 - The application should dynamically update statistics based on the feedback given.
+
+### 6.3: Anecdotes, step 1
+- Implement voting functionality using `Redux` for the anecdotes application from part 1:
+  - Store the number of votes for each anecdote in the `Redux` store.
+- When a user votes for an anecdote:
+  - Dispatch an action that updates the vote count of the selected anecdote in the store.
+  - Ensure the component updates to reflect the new number of votes.
+
+### 6.4: Anecdotes, step 2
+- Implement functionality for adding new anecdotes.
+- The user should be able to submit a new anecdote using an uncontrolled form input.
+- When a new anecdote is submitted:
+  - Dispatch an action that adds the new anecdote to the `Redux` store.
+  - Make sure the component updates to display the newly added anecdote.
+
+### 6.5: Anecdotes, step 3
+- Ensure anecdotes are ordered by the number of votes, highest first.
+- Sort the anecdotes before rendering them:
+  - Anecdotes with more votes should appear higher in the list.
+  - After voting or adding a new anecdote, the order should automatically update.
+
+### 6.6: Anecdotes, step 4
+- Refactor the code by separating the creation of action objects into action creator functions.
+- Move all action creators to the `src/reducers/anecdoteReducer.js` file.
+- Update your components to use these action creators when dispatching actions, instead of directly creating action objects inside the component.

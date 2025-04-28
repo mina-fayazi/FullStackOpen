@@ -43,3 +43,15 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Refactor the code by separating the creation of action objects into action creator functions.
 - Move all action creators to the `src/reducers/anecdoteReducer.js` file.
 - Update your components to use these action creators when dispatching actions, instead of directly creating action objects inside the component.
+
+### 6.7: Anecdotes, step 5
+- Create a new component called `AnecdoteForm` for adding a new anecdote:
+  - The form and its submission handling should now be inside `AnecdoteForm`.
+  - When the form is submitted, dispatch the action to add a new anecdote.
+- Keep the `App` component cleaner by simply rendering the `AnecdoteForm` component.
+
+### 6.8: Anecdotes, step 6
+- Create a new component called `AnecdoteList` for rendering the anecdote list and voting for anecdotes:
+  - Display the list of anecdotes inside `AnecdoteList`.
+  - Handle the voting functionality (dispatching the vote action) inside this component.
+- The `App` component should now only render the `AnecdoteForm` and `AnecdoteList` components, keeping it clean and modular.

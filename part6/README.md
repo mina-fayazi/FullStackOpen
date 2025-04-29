@@ -55,3 +55,15 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
   - Display the list of anecdotes inside `AnecdoteList`.
   - Handle the voting functionality (dispatching the vote action) inside this component.
 - The `App` component should now only render the `AnecdoteForm` and `AnecdoteList` components, keeping it clean and modular.
+
+### 6.9: Better Anecdotes, step 7
+- Implement filtering functionality to control which anecdotes are displayed:
+  - Add a new `Filter` component for rendering a text input that lets users filter anecdotes based on text content.
+  - When the filter input changes, dispatch an action to update the filter value in the Redux store.
+- Store the filter state in the Redux store:
+  - Create a new reducer for managing the filter state.
+  - Define appropriate action types and action creators for updating the filter.
+  - Use `combineReducers` to combine the anecdote and filter reducers into a single root reducer.
+- Update the `AnecdoteList` component:
+  - Only display anecdotes that match the current filter text.
+  - Ensure the filtering is case-insensitive and reflects live updates as the user types.

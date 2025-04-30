@@ -100,3 +100,18 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Display the notification component in the main app:
   - Ensure the `Notification` component is rendered at the top level of the application so it’s always visible.
   - At this stage, only the default notification message is displayed.
+
+### 6.13: Better Anecdotes, step 11
+- Extend the notification functionality so that a message is shown for five seconds when the user either:
+  - Votes for an anecdote
+  - Creates a new anecdote
+- Update the notification logic by creating a custom action creator (`showNotification`) that:
+  - Dispatches `setNotification(message)`
+  - Waits for a fixed duration (e.g. 5 seconds)
+  - Automatically dispatches `clearNotification()`
+  - This pattern ensures:
+    - Cleaner and more reusable code
+    - Timeout logic is handled centrally in one place
+- Update the relevant components:
+  - In `AnecdoteList`, dispatch `showNotification("You voted: ...", 5)` after voting.
+  - In `AnecdoteForm`, dispatch `showNotification("You created: ...", 5)` after a new anecdote is added.

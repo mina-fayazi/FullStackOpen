@@ -1,3 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit'
+
+// Initial anecdote strings
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -7,60 +10,42 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+// Generate a unique ID for each anecdote
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+// Convert a string into an anecdote object with id and votes
+const asObject = (anecdote) => ({
+  content: anecdote,
+  id: getId(),
+  votes: 0
+})
 
+// Initial state is an array of anecdote objects
 const initialState = anecdotesAtStart.map(asObject)
 
-// Action creators
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    payload: { id }
-  }
-}
+// Create a slice for anecdotes using Redux Toolkit
+const anecdoteSlice = createSlice({
+  name: 'anecdotes', // Slice name
+  initialState, // Initial state for this slice
+  reducers: {
+    // Reducer to handle voting for an anecdote
+    voteAnecdote(state, action) {
+      const id = action.payload // The id of the voted anecdote
+      const anecdoteToVote = state.find(a => a.id === id)
 
-export const createAnecdote = (content) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    payload: {
-      content,
-      id: getId(),
-      votes: 0
-    }
-  }
-}
-
-// Reducer
-const reducer = (state = initialState, action) => {
-  //console.log('state now: ', state)
-  //console.log('action', action)
-
-  switch (action.type) {
-    case 'VOTE': {
-      const id = action.payload.id
-      const anecdoteToChange = state.find(a => a.id === id)
-      const changedAnecdote = {
-        ...anecdoteToChange,
-        votes: anecdoteToChange.votes + 1
+      if (anecdoteToVote) {
+        anecdoteToVote.votes += 1 // Increment the vote count
+        state.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes (descending)
       }
-      const updatedState = state.map(a => a.id !== id ? a : changedAnecdote)
-      return updatedState.sort((a, b) => b.votes - a.votes) // sort by votes
+    },
+
+    // Reducer to handle creating a new anecdote
+    createAnecdote(state, action) {
+      const content = action.payload // The new anecdote's content
+      state.push(asObject(content)) // Add new anecdote to state
     }
-
-    case 'NEW_ANECDOTE':
-      return [...state, action.payload]
-
-    default:
-      return state
   }
-}
+})
 
-export default reducer
+export const { voteAnecdote, createAnecdote } = anecdoteSlice.actions
+export default anecdoteSlice.reducer

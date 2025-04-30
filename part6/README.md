@@ -86,3 +86,17 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Important note on immutability:
   - The initial state returned by Redux Toolkit slices is immutable.
   - When sorting the list of anecdotes, always create a copy of the state array before sorting it to avoid runtime errors.
+
+### 6.12: Better Anecdotes, step 10
+- Implement a notification system using Redux Toolkit:
+  - Create a new slice and reducer in a file named `notificationReducer.js`.
+  - Define the initial notification message that should be displayed when the app loads.
+  - Use `createSlice` to define the reducer and two action creators: one for setting a new notification and one for clearing it.
+- Update the `Notification` component to display messages from the Redux store:
+  - Connect the component to the Redux store using the `useSelector` hook.
+  - Retrieve the current notification message from the store and render it inside a styled container.
+- Integrate the notification reducer into the global Redux store:
+  - Make sure to add the new reducer to the reducer configuration of the store defined in `src/store.js`.
+- Display the notification component in the main app:
+  - Ensure the `Notification` component is rendered at the top level of the application so it’s always visible.
+  - At this stage, only the default notification message is displayed.

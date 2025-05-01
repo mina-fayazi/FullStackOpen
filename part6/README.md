@@ -125,3 +125,16 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Modify the logic for adding new anecdotes so they are stored on the backend:
   - Instead of adding anecdotes directly to the Redux state, send a POST request to the backend to create a new anecdote.
   - Once the backend confirms creation, update the Redux state using the response data.
+
+### 6.16: Anecdotes and the Backend, step 3
+- Refactor the Redux store initialization to use asynchronous action creators:
+  - Utilize Redux Thunk to enable action creators to return functions instead of plain action objects.
+  - Implement an asynchronous action creator (e.g. `initializeAnecdotes`) that:
+    - Sends a request to the backend to fetch the list of anecdotes.
+    - Dispatches an action to store the retrieved anecdotes in the Redux state.
+
+### 6.17: Anecdotes and the Backend, step 4
+- Refactor the process of creating new anecdotes to use asynchronous action creators:
+  - Define an asynchronous action creator (e.g. `createAnecdote`) that:
+    - Sends a POST request to the backend to add a new anecdote.
+    - Dispatches an action to add the returned anecdote to the Redux store.

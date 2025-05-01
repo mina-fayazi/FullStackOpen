@@ -115,3 +115,13 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Update the relevant components:
   - In `AnecdoteList`, dispatch `showNotification("You voted: ...", 5)` after voting.
   - In `AnecdoteForm`, dispatch `showNotification("You created: ...", 5)` after a new anecdote is added.
+
+### 6.14: Anecdotes and the Backend, step 1
+- Connect the frontend application to the backend server using json-server:
+  - Configure the backend to serve anecdote data from a JSON file.
+  - When the application loads, fetch the list of anecdotes from the backend instead of using hardcoded data.
+
+### 6.15: Anecdotes and the Backend, step 2
+- Modify the logic for adding new anecdotes so they are stored on the backend:
+  - Instead of adding anecdotes directly to the Redux state, send a POST request to the backend to create a new anecdote.
+  - Once the backend confirms creation, update the Redux state using the response data.

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import anecdoteService from '../services/anecdotes'
 
 // Generate a unique ID for each anecdote
-const getId = () => (100000 * Math.random()).toFixed(0)
+// const getId = () => (100000 * Math.random()).toFixed(0)
 
 // Create a slice for anecdotes using Redux Toolkit
 const anecdoteSlice = createSlice({
@@ -11,19 +11,10 @@ const anecdoteSlice = createSlice({
   reducers: {
     // Reducer to handle voting for an anecdote
     voteAnecdote(state, action) {
-      const id = action.payload // The id of the voted anecdote
-      const anecdoteToVote = state.find(a => a.id === id)
-
-      if (anecdoteToVote) {
-        anecdoteToVote.votes += 1 // Increment the vote count
-        state.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes (descending)
-      }
-    },
-
-    // Reducer to handle creating a new anecdote
-    createAnecdote(state, action) {
-      const content = action.payload // The new anecdote's content
-      state.push({ content, id: getId(), votes: 0 }) // Add new anecdote to state
+      const updatedAnecdote = action.payload
+      return state
+        .map(a => a.id === updatedAnecdote.id ? updatedAnecdote : a)
+        .sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes
     },
     
     // Reducer to handle adding an anecdote object
@@ -33,7 +24,7 @@ const anecdoteSlice = createSlice({
 	
 	// Reducer to handle replacing the anecdotes array directly
 	setAnecdotes(state, action) {
-      return action.payload
+      return action.payload.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes
     }
   }
 })
@@ -53,6 +44,17 @@ export const createAnecdote = (content) => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.createNew(content)
     dispatch(appendAnecdote(newAnecdote))
+  }
+}
+
+// Asynchronous action creator to save votes to the backend
+export const voteAnecdoteAsync = (anecdote) => {
+  return async dispatch => {
+    const updated = await anecdoteService.update({
+      ...anecdote,
+      votes: anecdote.votes + 1
+    })
+    dispatch(voteAnecdote(updated))
   }
 }
 

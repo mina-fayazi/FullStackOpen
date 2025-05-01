@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { voteAnecdoteAsync } from '../reducers/anecdoteReducer'
 import { showNotification } from '../reducers/notificationReducer'
 
 // A component for rendering the anecdote list
@@ -10,8 +10,8 @@ const AnecdoteList = () => {
   )
 
   const vote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote.id))
-	dispatch(showNotification(`You voted: '${anecdote.content}'`, 5))
+    dispatch(voteAnecdoteAsync(anecdote))
+	dispatch(showNotification(`You voted: '${anecdote.content}'`, 10))
   }
 
   return (

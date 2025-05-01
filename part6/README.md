@@ -138,3 +138,21 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
   - Define an asynchronous action creator (e.g. `createAnecdote`) that:
     - Sends a POST request to the backend to add a new anecdote.
     - Dispatches an action to add the returned anecdote to the Redux store.
+
+### 6.18: Anecdotes and the Backend, step 5
+- Implement backend persistence for voting functionality:
+  - Update the voting logic to send a PUT request to the backend with the modified anecdote (with an incremented vote count).
+  - Create an asynchronous action creator (e.g. `voteAnecdoteAsync`) that:
+    - Accepts an anecdote object as input.
+    - Sends an update request to the backend.
+    - Dispatches an action to update the anecdote in the Redux store using the returned updated data.
+- This ensures that all vote changes are reflected in both the frontend and the backend, keeping data consistent.
+
+### 6.19: Anecdotes and the Backend, step 6
+- Simplify the notification creation process:
+  - Create a utility action creator that accepts two parameters:
+    - The notification message text.
+    - The duration (in seconds) the message should be visible.
+  - Internally handle setting the message and clearing it after the timeout using `setTimeout`.
+- This abstraction avoids repetitive logic and improves code clarity when triggering notifications.
+- This functionality was already implemented as part of exercise 6.13.

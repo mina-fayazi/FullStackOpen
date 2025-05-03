@@ -156,3 +156,25 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
   - Internally handle setting the message and clearing it after the timeout using `setTimeout`.
 - This abstraction avoids repetitive logic and improves code clarity when triggering notifications.
 - This functionality was already implemented as part of exercise 6.13.
+
+### 6.20: Anecdotes with React Query, step 1
+- Replace Redux for fetching anecdotes with `React Query`:
+  - Use the `useQuery` hook to fetch anecdote data from the backend.
+  - Handle loading and error states appropriately.
+  - If the server is unreachable or the request fails, display an error message:  
+    `"anecdote service not available due to problems in server"`.
+  - Customize the query's retry behavior if needed:
+    - Disable retries with `retry: false`, or
+    - Set limited retries with `retry: 1`.
+
+### 6.21: Anecdotes with React Query, step 2
+- Implement adding new anecdotes using React Query:
+  - Use the `useMutation` hook to send new anecdote data to the backend.
+  - Ensure that new anecdotes are automatically shown in the list upon successful creation.
+  - The backend enforces a minimum content length of 5 characters for new anecdotes.
+    - Do not worry about error handling for failed submissions at this point.
+
+### 6.22: Anecdotes with React Query, step 3
+- Implement voting functionality using React Query:
+  - Use the `useMutation` hook to update the vote count of an anecdote on the backend.
+  - Ensure the UI reflects the updated vote count immediately after a successful mutation.

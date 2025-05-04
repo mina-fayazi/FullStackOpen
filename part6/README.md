@@ -178,3 +178,19 @@ This directory contains the exercises for Part 6 of the FullStackOpen course.
 - Implement voting functionality using React Query:
   - Use the `useMutation` hook to update the vote count of an anecdote on the backend.
   - Ensure the UI reflects the updated vote count immediately after a successful mutation.
+
+### 6.23: Anecdotes with React Query, step 4
+- Implement a notification system using `useReducer` and `React Context API`:
+  - Create a `NotificationContext` that holds the notification message and a dispatch function.
+  - Use the `useNotificationValue` and `useNotificationDispatch` hooks to access and update the notification state throughout the app.
+- Update the application to display notifications for successful voting and successful creation of a new anecdote. 
+- Notifications should disappear automatically after 5 seconds.
+
+### 6.24: Anecdotes with React Query, step 5
+- Handle errors when adding a new anecdote:
+  - The backend enforces a minimum length of 5 characters for anecdote content.
+  - If the user tries to add an anecdote with fewer than 5 characters, the backend responds with an error.
+- Use the `onError` callback of the `useMutation` hook to catch this error:
+  - Display the error message as a notification to the user:  
+    `"too short anecdote, must have length 5 or more"`
+  - The error notification should also disappear after 5 seconds.

@@ -41,3 +41,21 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
 - Avoid passing the `reset` function as a prop to the `<input>` element.
 - Refactor the hook or how it is used so that `reset` is excluded from the props passed to the input field via the spread syntax.
 - The solution should preserve the convenience of using the spread operator for cleaner code while avoiding invalid HTML attributes.
+
+### 7.7: Country Hook
+- Implement a custom hook called `useCountry` that fetches data about a country using its name.
+- The hook should accept a country name as its parameter and return the country’s data.
+- Use the REST API available at `https://studies.cs.helsinki.fi/restcountries/api/name/{country}` to fetch country details.
+- Integrate the hook with a `useEffect` so that it triggers a new fetch request only when the given country name changes.
+- If the country is found, display its name, capital, population, and flag image.
+- If the country is not found, show a message saying "not found...".
+
+### 7.8: Ultimate Hooks
+- Create a custom hook called `useResource` for managing HTTP communication with a backend service.
+- The hook should be reusable for different types of resources (e.g., notes, persons).
+- `useResource` should return two values: the current list of resources, and an object containing methods to manipulate the resources (e.g., `create`).
+- Implement `getAll` and `create` functionalities in the hook. Other actions like `update` and `delete` are not required.
+- Use this hook in the `App` component to fetch and display both notes and persons.
+- When the form is submitted, use the corresponding service returned by the hook to create a new note or person.
+- The hook should update the local state automatically after a new resource is created, so the UI reflects the latest data.
+- This setup enables clean and reusable logic for managing resources, promoting separation of concerns and modularity.

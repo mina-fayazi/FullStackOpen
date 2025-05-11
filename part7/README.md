@@ -59,3 +59,27 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
 - When the form is submitted, use the corresponding service returned by the hook to create a new note or person.
 - The hook should update the local state automatically after a new resource is created, so the UI reflects the latest data.
 - This setup enables clean and reusable logic for managing resources, promoting separation of concerns and modularity.
+
+### 7.9: Extending the Bloglist: Automatic Code Formatting
+- Introduce `Prettier` as a tool to enforce consistent code formatting across the project.
+- Prettier is configured in the development environment and integrated with the code editor to automatically format the code.
+
+### 7.10: Extending the Bloglist: State Management – Notifications
+
+#### Option 1: Redux, step 1
+- Refactor the application to use Redux for managing the notification state. The Redux setup includes:
+  - Create a Redux store using `@reduxjs/toolkit` in `src/store.js`.
+  - Define a notification slice in `src/reducers/notificationReducer.js` that includes:
+    - The initial state for notifications.
+    - Reducers for setting and clearing notification messages.
+  - Create action creators (e.g., `setNotification` and `clearNotification`) to manage notification content and type.
+  - Connect the Redux store to the application using the `<Provider>` component.
+  - Use the `useDispatch` and `useSelector` hooks to update and access notification state within components.
+  - Handle automatic clearing of notifications after a delay (e.g., `setTimeout`).
+
+#### Option 2: React Query and Context, step 1
+- Manage the notification state using React Context and the `useReducer` hook:
+  - Create a custom context in `src/NotificationContext.jsx` using `@tanstack/react-query` to store and dispatch notification state.
+  - A provider component (`NotificationContextProvider`) wraps the application to make the context accessible throughout the component tree.
+  - Custom hooks (`useNotificationValue` and `useNotificationDispatch`) abstract access to the notification state and dispatch function.
+  - Notifications are triggered by dispatching actions to the context, and optionally cleared after a timeout.

@@ -8,24 +8,29 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-// Uncomment to use Redux for managing the notifications:
-/*
+// Uncomment to use Redux for state management:
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  initializeBlogs,
+  createBlog,
+  updateBlogLikes,
+  removeBlog,
+} from './reducers/blogReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 import { showNotification } from './reducers/notificationReducer'
-*/
 
-// Uncomment to use React Query and Context for managing the notifications:
+// Uncomment to use React Query and Context for state management:
+/*
 import {
   useNotificationValue,
   useNotificationDispatch,
 } from './NotificationContext'
+*/
 
 const App = () => {
   // State management
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
   const blogFormRef = useRef() // Create a ref for Togglable
 
   /**
@@ -35,15 +40,16 @@ const App = () => {
    */
 
   // ___ Redux version ___
-  /*
   const dispatch = useDispatch()
-  const notification = useSelector(state => state.notification)
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
+  const notification = useSelector((state) => state.notification)
   const notify = (msg, type) => {
     dispatch(showNotification(msg, type))
   }
-  */
 
   // ___ React Query and Context version ___
+  /*
   const notification = useNotificationValue()
   const notificationDispatch = useNotificationDispatch()
   const notify = (msg, type = 'success', duration = 5) => {
@@ -56,6 +62,7 @@ const App = () => {
       notificationDispatch({ type: 'CLEAR_NOTIFICATION' })
     }, duration * 1000)
   }
+  */
 
   /**
    * Checks if a user is already logged in when the component mounts.
@@ -73,7 +80,9 @@ const App = () => {
         notify('Token expired, logging out', 'error')
         handleLogout() // Log out the user if token has expired
       } else {
-        setUser(user)
+        // ___ Redux version ___
+        dispatch(setUser(user))
+
         blogService.setToken(user.token)
       }
     }
@@ -84,8 +93,8 @@ const App = () => {
     if (user) {
       const fetchBlogs = async () => {
         try {
-          const blogs = await blogService.getAll()
-          setBlogs(blogs)
+          // ___ Redux version ___
+          await dispatch(initializeBlogs())
         } catch (error) {
           //console.error('Error fetching blogs:', error) // Debugging line
           notify('Failed to fetch blogs', 'error')
@@ -109,7 +118,9 @@ const App = () => {
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       blogService.setToken(user.token) // Ensure blogService uses this token
 
-      setUser(user)
+      // ___ Redux version ___
+      dispatch(setUser(user))
+
       setUsername('')
       setPassword('')
 
@@ -123,7 +134,9 @@ const App = () => {
   // Logs out the user by removing stored credentials and clearing state.
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser')
-    setUser(null)
+
+    // ___ Redux version ___
+    dispatch(clearUser())
   }
 
   /**
@@ -132,8 +145,9 @@ const App = () => {
    */
   const createNewBlog = async (blogData) => {
     try {
-      const createdBlog = await blogService.create(blogData)
-      setBlogs(blogs.concat(createdBlog))
+      // ___ Redux version ___
+      const createdBlog = await dispatch(createBlog(blogData))
+
       notify(`Blog "${createdBlog.title}" by ${createdBlog.author} added!`)
 
       // Hide the form after creating the blog
@@ -148,9 +162,10 @@ const App = () => {
   const updateBlog = async (updatedBlog) => {
     try {
       const returnedBlog = await blogService.update(updatedBlog.id, updatedBlog)
-      setBlogs(
-        blogs.map((blog) => (blog.id === updatedBlog.id ? returnedBlog : blog))
-      )
+
+      // ___ Redux version ___
+      dispatch(updateBlogLikes(returnedBlog))
+
       notify(
         `Liked: ${returnedBlog.title} by ${returnedBlog.author}`,
         'success'
@@ -165,7 +180,10 @@ const App = () => {
     if (window.confirm(`Remove blog "${title}" by ${author}?`)) {
       try {
         await blogService.remove(id)
-        setBlogs(blogs.filter((blog) => blog.id !== id))
+
+        // ___ Redux version ___
+        dispatch(removeBlog(id))
+
         notify(`Deleted blog "${title}" by ${author}`)
       } catch (error) {
         notify('Error deleting blog', 'error')

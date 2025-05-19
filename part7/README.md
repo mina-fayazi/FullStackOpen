@@ -83,3 +83,36 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - A provider component (`NotificationContextProvider`) wraps the application to make the context accessible throughout the component tree.
   - Custom hooks (`useNotificationValue` and `useNotificationDispatch`) abstract access to the notification state and dispatch function.
   - Notifications are triggered by dispatching actions to the context, and optionally cleared after a timeout.
+
+### 7.11: Extending the Bloglist: State Management - Fetching and Creating Blogs
+
+#### Option 1: Redux, step 2
+- Extend the Redux setup to include the state management of blog posts:
+  - Create a blog slice in `src/reducers/blogReducer.js` to handle the fetching, creation, and overall state of blog posts.
+  - Use Redux to retrieve blogs from the backend and store them in the Redux store.
+  - Update the application components to read blog data directly from the Redux store using `useSelector`.
+  - Dispatch actions to fetch blogs during app initialization and to create new blogs upon form submission.
+- For this step, it is acceptable to manage login and blog creation forms using local React component state.
+
+
+
+### 7.12: Extending the Bloglist: State Management - Liking and Deleting Blogs
+
+#### Option 1: Redux, step 3
+- Expand the Redux blog slice to support updating and deleting blog posts:
+  - Implement Redux actions and reducers to handle liking a blog post and removing a blog from the backend.
+  - Ensure the state in the Redux store is updated accordingly after each operation so that the UI reflects the changes in real time.
+  - Use `useDispatch` in the relevant components to trigger like and delete actions.
+
+
+
+### 7.13: Extending the Bloglist: State Management - User Login
+
+#### Option 1: Redux, step 4
+- Store the authenticated user’s information in the Redux store to enable global access to user state:
+  - Create a user slice in `src/reducers/userReducer.js` that includes:
+    - Setting the signed-in user upon successful login.
+    - Clearing the user data upon logout.
+  - Update components that rely on authentication to use the Redux store for user-related logic.
+
+

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import { showNotification } from './notificationReducer'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -28,16 +29,52 @@ export const { setBlogs, appendBlog, updateBlogLikes, removeBlog } =
 // Thunk actions
 export const initializeBlogs = () => {
   return async (dispatch) => {
-    const blogs = await blogService.getAll()
-    dispatch(setBlogs(blogs))
+    try {
+      const blogs = await blogService.getAll()
+      dispatch(setBlogs(blogs))
+    } catch (error) {
+      dispatch(showNotification('Failed to fetch blogs', 'error'))
+    }
   }
 }
 
 export const createBlog = (newBlog) => {
   return async (dispatch) => {
-    const created = await blogService.create(newBlog)
-    dispatch(appendBlog(created))
-    return created
+    try {
+      const created = await blogService.create(newBlog)
+      dispatch(appendBlog(created))
+      dispatch(
+        showNotification(`Blog "${created.title}" by ${created.author} added!`)
+      )
+    } catch (error) {
+      dispatch(showNotification('Failed to create blog', 'error'))
+    }
+  }
+}
+
+export const likeBlog = (updatedBlog) => {
+  return async (dispatch) => {
+    try {
+      const returned = await blogService.update(updatedBlog.id, updatedBlog)
+      dispatch(updateBlogLikes(returned))
+      dispatch(
+        showNotification(`Liked: ${returned.title} by ${returned.author}`)
+      )
+    } catch (error) {
+      dispatch(showNotification('Error updating blog likes', 'error'))
+    }
+  }
+}
+
+export const deleteBlog = (id, title, author) => {
+  return async (dispatch) => {
+    try {
+      await blogService.remove(id)
+      dispatch(removeBlog(id))
+      dispatch(showNotification(`Deleted blog "${title}" by ${author}`))
+    } catch (error) {
+      dispatch(showNotification('Error deleting blog', 'error'))
+    }
   }
 }
 

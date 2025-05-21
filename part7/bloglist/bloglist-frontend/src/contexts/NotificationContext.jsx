@@ -19,8 +19,18 @@ export const NotificationContextProvider = ({ children }) => {
     type: '',
   })
 
+  const notify = (msg, type = 'success', duration = 5) => {
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      payload: { message: msg, type },
+    })
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_NOTIFICATION' })
+    }, duration * 1000)
+  }
+
   return (
-    <NotificationContext.Provider value={[notification, dispatch]}>
+    <NotificationContext.Provider value={[notification, notify]}>
       {children}
     </NotificationContext.Provider>
   )
@@ -31,9 +41,9 @@ export const useNotificationValue = () => {
   return notification
 }
 
-export const useNotificationDispatch = () => {
-  const [, dispatch] = useContext(NotificationContext)
-  return dispatch
+export const useNotification = () => {
+  const [, notify] = useContext(NotificationContext)
+  return notify
 }
 
 export default NotificationContext

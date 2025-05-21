@@ -79,7 +79,7 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
 
 #### Option 2: React Query and Context, step 1
 - Manage the notification state using React Context and the `useReducer` hook:
-  - Create a custom context in `src/NotificationContext.jsx` using `@tanstack/react-query` to store and dispatch notification state.
+  - Create a custom context in `src/contexts/NotificationContext.jsx` using `@tanstack/react-query` to store and dispatch notification state.
   - A provider component (`NotificationContextProvider`) wraps the application to make the context accessible throughout the component tree.
   - Custom hooks (`useNotificationValue` and `useNotificationDispatch`) abstract access to the notification state and dispatch function.
   - Notifications are triggered by dispatching actions to the context, and optionally cleared after a timeout.
@@ -94,7 +94,11 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - Dispatch actions to fetch blogs during app initialization and to create new blogs upon form submission.
 - For this step, it is acceptable to manage login and blog creation forms using local React component state.
 
-
+#### Option 2: React Query and Context, step 2
+- Use React Query to manage the state for blog posts:
+  - Implement React Query hooks in `src/contexts/BlogContext.jsx` to fetch existing blog posts from the backend.
+  - Use React Query’s mutation hooks to handle the creation of new blogs, ensuring that successful creations update the query cache accordingly.
+  - The UI should display the list of blogs and allow the addition of new blogs, reflecting changes immediately after successful mutations.
 
 ### 7.12: Extending the Bloglist: State Management - Liking and Deleting Blogs
 
@@ -104,7 +108,11 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - Ensure the state in the Redux store is updated accordingly after each operation so that the UI reflects the changes in real time.
   - Use `useDispatch` in the relevant components to trigger like and delete actions.
 
-
+#### Option 2: React Query and Context, step 3
+- Expand your React Query solution to include liking and deleting blog posts:
+  - Use React Query mutation hooks to implement the like and delete functionalities for blogs.
+  - Ensure that after liking or deleting a blog, the React Query cache is invalidated or updated so the UI stays in sync with the backend.
+  - The UI should allow users to like or delete blogs, reflecting the changes immediately based on query updates.
 
 ### 7.13: Extending the Bloglist: State Management - User Login
 
@@ -115,4 +123,8 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
     - Clearing the user data upon logout.
   - Update components that rely on authentication to use the Redux store for user-related logic.
 
-
+#### Option 2: React Query and Context, step 4
+- Use the `useReducer` hook and React Context to manage the logged-in user data:
+  - Create a user context with `useReducer` in `src/contexts/UserContext.jsx` to handle user state, including login and logout actions.
+  - Wrap the application in a user context provider to provide user state and dispatch functions throughout the component tree.
+  - Update components to consume the user context for authentication status and user information.

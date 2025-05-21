@@ -1,68 +1,85 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import blogService from './services/blogs'
-import loginService from './services/login'
 
 // Uncomment to use Redux for state management:
+/*
 import { useDispatch, useSelector } from 'react-redux'
 import {
   initializeBlogs,
   createBlog,
-  updateBlogLikes,
-  removeBlog,
+  likeBlog,
+  deleteBlog as deleteBlogThunk,
 } from './reducers/blogReducer'
-import { setUser, clearUser } from './reducers/userReducer'
+import {
+  setUser,
+  logout,
+  login,
+  setUsername,
+  setPassword,
+} from './reducers/userReducer'
 import { showNotification } from './reducers/notificationReducer'
+*/
+//////////
 
 // Uncomment to use React Query and Context for state management:
-/*
 import {
   useNotificationValue,
-  useNotificationDispatch,
-} from './NotificationContext'
-*/
+  useNotification,
+} from './contexts/NotificationContext'
+import {
+  useUserValue,
+  useUserDispatch,
+  useSetUser,
+  useClearUser,
+  useLogin,
+  useLogout,
+} from './contexts/UserContext'
+import {
+  useBlogValue,
+  useCreateBlog,
+  useUpdateBlog,
+  useDeleteBlog,
+} from './contexts/BlogContext'
+//////////
 
 const App = () => {
-  // State management
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const blogFormRef = useRef() // Create a ref for Togglable
-
-  /**
-   * Displays a notification with a given message and type.
-   * Default type is 'success'.
-   * Notification disappears after 5 seconds by default.
-   */
-
-  // ___ Redux version ___
+  // ___Redux State Management___
+  // Uncomment to use Redux:
+  /*
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
-  const user = useSelector((state) => state.user)
+  const userState = useSelector((state) => state.user)
+  const { user, username, password } = userState
   const notification = useSelector((state) => state.notification)
-  const notify = (msg, type) => {
-    dispatch(showNotification(msg, type))
-  }
-
-  // ___ React Query and Context version ___
-  /*
-  const notification = useNotificationValue()
-  const notificationDispatch = useNotificationDispatch()
-  const notify = (msg, type = 'success', duration = 5) => {
-    notificationDispatch({
-      type: 'SET_NOTIFICATION',
-      payload: { message: msg, type },
-    })
-
-    setTimeout(() => {
-      notificationDispatch({ type: 'CLEAR_NOTIFICATION' })
-    }, duration * 1000)
-  }
   */
+  //////////
+
+  // ___React Query and Context State Management___
+  // Uncomment to use React Query and Context:
+  const notification = useNotificationValue()
+  const showNotification = useNotification()
+
+  const userState = useUserValue()
+  const userDispatch = useUserDispatch()
+  const { user, username, password } = userState
+  const setUser = useSetUser()
+  const clearUser = useClearUser()
+  const loginMutation = useLogin(showNotification)
+  const logout = useLogout()
+
+  const blogsQuery = useBlogValue()
+  const blogs = blogsQuery?.data || []
+  const createBlogMutation = useCreateBlog(showNotification)
+  const updateBlogMutation = useUpdateBlog(showNotification)
+  const deleteBlogMutation = useDeleteBlog(showNotification)
+  //////////
+
+  const blogFormRef = useRef() // Create a ref for Togglable
 
   /**
    * Checks if a user is already logged in when the component mounts.
@@ -77,117 +94,88 @@ const App = () => {
       // Check if token is expired
       if (decodedToken.exp * 1000 < Date.now()) {
         //console.log("Token expired, logging out") // Debugging line
-        notify('Token expired, logging out', 'error')
-        handleLogout() // Log out the user if token has expired
-      } else {
-        // ___ Redux version ___
-        dispatch(setUser(user))
 
-        blogService.setToken(user.token)
+        // ___Redux version___
+        //dispatch(logout())
+
+        // ___React Query and Context version___
+        clearUser()
+      } else {
+        // ___Redux version___
+        //dispatch(setUser(user))
+
+        // ___React Query and Context version___
+        setUser(user)
       }
     }
   }, [])
-
-  // Fetches all blogs from the server once the user is logged in.
-  useEffect(() => {
-    if (user) {
-      const fetchBlogs = async () => {
-        try {
-          // ___ Redux version ___
-          await dispatch(initializeBlogs())
-        } catch (error) {
-          //console.error('Error fetching blogs:', error) // Debugging line
-          notify('Failed to fetch blogs', 'error')
-        }
-      }
-      fetchBlogs()
-    }
-  }, [user])
 
   /**
    * Handles user login by sending credentials to the server.
    * If successful, stores the user data and token, and displays a success message.
    */
-  const handleLogin = async (event) => {
+  const handleLogin = (event) => {
     event.preventDefault()
+    // ___Redux version___
+    //dispatch(login())
 
-    try {
-      const user = await loginService.login({ username, password })
-
-      // Store token in local storage
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      blogService.setToken(user.token) // Ensure blogService uses this token
-
-      // ___ Redux version ___
-      dispatch(setUser(user))
-
-      setUsername('')
-      setPassword('')
-
-      notify('Login successful!')
-    } catch (error) {
-      //console.error("Login failed:", error) // Debugging line
-      notify('Wrong username or password', 'error')
-    }
+    // ___React Query and Context version___
+    loginMutation.mutate({ username, password })
   }
 
   // Logs out the user by removing stored credentials and clearing state.
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogUser')
+    // ___Redux version___
+    //dispatch(logout())
 
-    // ___ Redux version ___
-    dispatch(clearUser())
+    // ___React Query and Context version___
+    logout()
   }
+
+  // Fetches all blogs from the server once the user is logged in.
+  // This part should only be uncommented when using Redux for state management
+  // ___Redux version___
+  /*
+  useEffect(() => {
+    if (user) {
+      dispatch(initializeBlogs())
+    }
+  }, [user])
+  */
+  //////////
 
   /**
    * Handles blog creation by sending the new blog data to the server.
    * If successful, updates the blog list and shows a success message.
    */
-  const createNewBlog = async (blogData) => {
-    try {
-      // ___ Redux version ___
-      const createdBlog = await dispatch(createBlog(blogData))
+  const createNewBlog = (blogData) => {
+    // ___Redux version ___
+    //dispatch(createBlog(blogData))
 
-      notify(`Blog "${createdBlog.title}" by ${createdBlog.author} added!`)
+    // ___React Query and Context version___
+    createBlogMutation.mutate(blogData)
 
-      // Hide the form after creating the blog
-      blogFormRef.current.toggleVisibility()
-    } catch (error) {
-      //console.error('Error creating blog:', error) // Debugging line
-      notify('Failed to create blog', 'error')
-    }
+    // Hide the form after creating the blog
+    blogFormRef.current.toggleVisibility()
   }
 
   // Updates a blog's likes in the backend and frontend state.
-  const updateBlog = async (updatedBlog) => {
-    try {
-      const returnedBlog = await blogService.update(updatedBlog.id, updatedBlog)
+  const updateBlog = (updatedBlog) => {
+    // ___Redux version___
+    //dispatch(likeBlog(updatedBlog))
 
-      // ___ Redux version ___
-      dispatch(updateBlogLikes(returnedBlog))
-
-      notify(
-        `Liked: ${returnedBlog.title} by ${returnedBlog.author}`,
-        'success'
-      )
-    } catch (error) {
-      notify('Error updating blog likes', 'error')
-    }
+    // ___React Query and Context version___
+    updateBlogMutation.mutate(updatedBlog)
   }
 
   // Deletes a blog post in the frontend.
   const deleteBlog = async (id, title, author) => {
     if (window.confirm(`Remove blog "${title}" by ${author}?`)) {
-      try {
-        await blogService.remove(id)
+      // ___Redux version___
+      //dispatch(deleteBlogThunk(id, title, author))
 
-        // ___ Redux version ___
-        dispatch(removeBlog(id))
-
-        notify(`Deleted blog "${title}" by ${author}`)
-      } catch (error) {
-        notify('Error deleting blog', 'error')
-      }
+      // ___React Query and Context version___
+      deleteBlogMutation.mutate({ id, title, author })
     }
   }
 
@@ -211,7 +199,7 @@ const App = () => {
             updateBlog={updateBlog}
             deleteBlog={deleteBlog}
             user={user}
-            showNotification={notify}
+            showNotification={showNotification}
           />
         ))}
     </div>
@@ -226,8 +214,20 @@ const App = () => {
       {user === null ? (
         <LoginForm
           handleSubmit={handleLogin}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
+          // ___Redux version___
+          //handleUsernameChange={({ target }) => dispatch(setUsername(target.value))}
+
+          // ___React Query and Context version___
+          handleUsernameChange={({ target }) =>
+            userDispatch({ type: 'SET_USERNAME', payload: target.value })
+          }
+          // ___Redux version___
+          //handlePasswordChange={({ target }) => dispatch(setPassword(target.value))}
+
+          // ___React Query and Context version___
+          handlePasswordChange={({ target }) =>
+            userDispatch({ type: 'SET_PASSWORD', payload: target.value })
+          }
           username={username}
           password={password}
         />

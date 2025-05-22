@@ -27,6 +27,7 @@ blogsRouter.post('/', async (request, response) => {
 
   // Save the blog and update user's blog list
   const savedBlog = await blog.save()
+  await savedBlog.populate('user', { username: 1, name: 1 }) // Ensure the saved blog includes full user details
   request.user.blogs = request.user.blogs.concat(savedBlog._id)
   await request.user.save()
 

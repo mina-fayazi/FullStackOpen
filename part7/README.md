@@ -128,3 +128,20 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - Create a user context with `useReducer` in `src/contexts/UserContext.jsx` to handle user state, including login and logout actions.
   - Wrap the application in a user context provider to provide user state and dispatch functions throughout the component tree.
   - Update components to consume the user context for authentication status and user information.
+
+### 7.14: Extending the Bloglist: Views - Users View
+- Implement a new view that displays a table of all users in the application along with the number of blogs each user has created.
+- This view is accessible via a navigation link titled "Users" in the main menu.
+- The users are listed in a tabular format where each row includes:
+  - The name of the user.
+  - The number of blogs they have created.
+- Each user's name acts as a clickable link that routes to a separate view displaying that user's blogs.
+- This view uses the `react-router-dom` library for navigation and routing between pages.
+
+### 7.15: Extending the Bloglist: Views - Individual User View
+- Implement a view that displays detailed information about an individual user.
+- When a user is selected from the users list (by clicking their name), this view shows:
+  - The user's name.
+  - A list of blog posts the user has added.
+- This view is navigable via the user links in the Users view.
+- To handle cases where data is not yet available (e.g., when refreshing the page), conditional rendering is applied to avoid accessing undefined properties.

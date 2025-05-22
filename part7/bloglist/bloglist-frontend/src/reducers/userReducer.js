@@ -29,6 +29,14 @@ const userSlice = createSlice({
 export const { setUser, clearUser, setUsername, setPassword } =
   userSlice.actions
 
+// Thunk actions
+export const restoreUserFromLocalStorage = (user) => {
+  return (dispatch) => {
+    blogService.setToken(user.token)
+    dispatch(setUser(user))
+  }
+}
+
 export const login = () => {
   return async (dispatch, getState) => {
     const { username, password } = getState().user

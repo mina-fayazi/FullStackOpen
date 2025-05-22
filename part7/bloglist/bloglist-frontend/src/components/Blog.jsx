@@ -1,58 +1,42 @@
-import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-const Blog = ({ blog, updateBlog, deleteBlog, user, showNotification }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ updateBlog, deleteBlog }) => {
+  const navigate = useNavigate()
+  
+  const { id } = useParams()
+  const blog = useSelector((state) => state.blogs.find((b) => b.id === id))
+  
+  const loggedUser = useSelector((state) => state.user)
 
-  // Handles like button click, sending a PUT request to update likes
-  const handleLike = () => {
-    const updatedBlog = {
-      ...blog,
-      likes: blog.likes + 1,
-      user: blog.user, // Keep the full user object
-    }
+  if (!blog) {
+    return <p>Blog not found</p>
+  }
 
-    updateBlog(updatedBlog)
+  const showDeleteButton = blog.user?.username === loggedUser?.user?.username
+  
+  const handleDelete = () => {
+    deleteBlog(blog.id, blog.title, blog.author)
+    navigate('/') // Redirect to home after deletion
   }
 
   return (
-    <div
-      className='blog'
-      data-testid='blog'
-      style={{
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderWidth: 1,
-        marginBottom: 5,
-      }}>
-      <div className='blog-summary'>
-        <span data-testid='blog-title'>{blog.title}</span> {blog.author}{' '}
-        <button onClick={() => setVisible(!visible)}>
-          {visible ? 'Hide' : 'View'}
+    <div>
+      <h2>{blog.title} {blog.author}</h2>
+      <a href={blog.url}>{blog.url}</a>
+      <p>
+        {blog.likes} likes{' '}
+        <button onClick={() => updateBlog(blog)}>Like</button>
+      </p>
+      <p>Added by {blog.user?.name || blog.user?.username || 'Unknown'}</p>
+
+      {showDeleteButton && (
+        <button
+          data-testid="delete-button"
+          onClick={handleDelete}
+        >
+          Delete
         </button>
-      </div>
-      {visible && (
-        <div className='blog-details'>
-          <p>{blog.url}</p>
-          <p>
-            Likes: {blog.likes}{' '}
-            <button data-testid='like-button' onClick={handleLike}>
-              Like
-            </button>
-          </p>
-          <p>Added by: {blog.user?.name || 'Unknown'}</p>{' '}
-          {/* Display the name of the user who created the blog */}
-          {user?.username ===
-            (typeof blog.user === 'object'
-              ? blog.user?.username // If blog.user is an object, use its username
-              : user?.username) && ( // If blog.user is just an ID (string), assume it belongs to the logged-in user
-            <button
-              data-testid='delete-button'
-              onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>
-              Delete
-            </button>
-          )}
-        </div>
       )}
     </div>
   )

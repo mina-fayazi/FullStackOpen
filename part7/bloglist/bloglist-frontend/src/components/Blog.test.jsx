@@ -1,7 +1,7 @@
 // Tests for the Blog component
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Blog from './Blog'
+import BlogList from './BlogList'
 import BlogForm from './BlogForm'
 
 // Define shared blog object for all tests
@@ -18,7 +18,7 @@ const blog = {
 
 // Test that the component only displays the blog's title and author by default
 test('renders title and author but not url or likes by default', () => {
-  const { container } = render(<Blog blog={blog} />)
+  const { container } = render(<BlogList blog={blog} />)
 
   // Check visible content
   const summary = container.querySelector('.blog-summary')
@@ -32,7 +32,7 @@ test('renders title and author but not url or likes by default', () => {
 
 // Test that the component shows url and likes when the 'View' button is pressed
 test('URL and number of likes are shown when the button is clicked', async () => {
-  render(<Blog blog={blog} />)
+  render(<BlogList blog={blog} />)
 
   const user = userEvent.setup()
   const viewButton = screen.getByText('View')
@@ -47,9 +47,9 @@ test('clicking the like button twice calls event handler twice', async () => {
   // Create the mock function
   const mockUpdateBlog = vi.fn()
 
-  // Render the Blog component with the required mock function as a prop
+  // Render the BlogList component with the required mock function as a prop
   render(
-    <Blog
+    <BlogList
       blog={blog}
       updateBlog={mockUpdateBlog}
       user={{ username: 'blogtest' }}

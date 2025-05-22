@@ -145,3 +145,18 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - A list of blog posts the user has added.
 - This view is navigable via the user links in the Users view.
 - To handle cases where data is not yet available (e.g., when refreshing the page), conditional rendering is applied to avoid accessing undefined properties.
+
+### 7.16: Extending the Bloglist: Views - Blog View
+- Implement a dedicated view for individual blog posts.
+- This view should be accessible by clicking on a blog title in the list of blogs on the main page.
+- When a blog is clicked, the application navigates to a route like `/blogs/:id`, where `:id` corresponds to the unique identifier of the blog.
+- The individual blog view displays the following details:
+  - The title of the blog post.
+  - The author of the blog post.
+  - The blog URL as a clickable link.
+  - The number of likes the blog has received.
+  - A button to increment the number of likes.
+  - The name of the user who added the blog.
+  - A delete button, visible only to the user who created the blog.
+- The blog list view should now only display the blog titles as links. Expanding items is no longer necessary and should be removed.
+- The application uses `react-router-dom` for navigation and routing between the blog list and individual blog views.

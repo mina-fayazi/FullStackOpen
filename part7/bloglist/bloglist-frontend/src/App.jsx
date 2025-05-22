@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
+import BlogList from './components/BlogList'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
@@ -194,13 +195,9 @@ const App = () => {
         .slice()
         .sort((a, b) => b.likes - a.likes) // Sort blogs by likes in descending order
         .map((blog) => (
-          <Blog
+          <BlogList
             key={blog.id}
             blog={blog}
-            updateBlog={updateBlog}
-            deleteBlog={deleteBlog}
-            user={user}
-            showNotification={showNotification}
           />
         ))}
     </div>
@@ -262,6 +259,7 @@ const App = () => {
               />
               <Route path='/users' element={<UserList />} />
               <Route path='/users/:id' element={<User />} />
+              <Route path="/blogs/:id" element={<Blog updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
             </Routes>
           </div>
         )}

@@ -11,7 +11,7 @@ const UserList = () => {
     if (user) {
       usersMap[user.id] = usersMap[user.id] || {
         id: user.id,
-        name: user.name,
+        name: user.name || user.username,
         blogs: [],
       }
       usersMap[user.id].blogs.push(blog)

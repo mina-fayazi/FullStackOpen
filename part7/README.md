@@ -173,3 +173,16 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - A logout button that logs the user out of the application.
 - Use `react-router-dom` for handling navigation between the views.
 - Ensure that logging out hides the navigation menu and returns the user to the login form.
+
+### 7.18: Extending the Bloglist: Views - Comments, step 1
+- Extend the blog post view to include a list of comments associated with each blog.
+- Comments should be displayed under a separate "Comments" section on the individual blog page.
+- Each comment is presented as a simple list item.
+- Comments are anonymous and are not associated with any specific user.
+- In this step, it is only required to display the comments that are retrieved from the backend.
+- An appropriate API endpoint for retrieving and adding comments is `/api/blogs/:id/comments`.
+
+### 7.19: Extending the Bloglist: Views - Comments, step 2
+- Add functionality to allow users to submit new comments to blog posts from the frontend.
+- When the comment is submitted, it should be sent to the backend and added to the list of comments.
+- Upon successful submission, the new comment should appear in the list without requiring a page reload.

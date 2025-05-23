@@ -1,10 +1,12 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addComment, setCommentInput } from '../reducers/blogReducer'
 
 const Blog = ({ updateBlog, deleteBlog }) => {
   const navigate = useNavigate()
-
   const { id } = useParams()
+  const dispatch = useDispatch()
+
   const blog = useSelector((state) => state.blogs.find((b) => b.id === id))
 
   const loggedUser = useSelector((state) => state.user)
@@ -18,6 +20,17 @@ const Blog = ({ updateBlog, deleteBlog }) => {
   const handleDelete = () => {
     deleteBlog(blog.id, blog.title, blog.author)
     navigate('/') // Redirect to home after deletion
+  }
+
+  const handleCommentChange = (event) => {
+    dispatch(setCommentInput({ id: blog.id, comment: event.target.value }))
+  }
+
+  const handleCommentSubmit = (event) => {
+    event.preventDefault()
+    if (blog.commentInput?.trim()) {
+      dispatch(addComment(blog.id, blog.commentInput))
+    }
   }
 
   return (
@@ -37,6 +50,24 @@ const Blog = ({ updateBlog, deleteBlog }) => {
           Delete
         </button>
       )}
+
+      <h3>Comments</h3>
+      <form onSubmit={handleCommentSubmit}>
+        <input
+          value={blog.commentInput || ''}
+          onChange={handleCommentChange}
+          placeholder='Write a comment'
+        />
+        <button type='submit'>Add Comment</button>
+      </form>
+
+      <ul>
+        {blog.comments && blog.comments.length > 0 ? (
+          blog.comments.map((c, index) => <li key={index}>{c}</li>)
+        ) : (
+          <li>No comments yet.</li>
+        )}
+      </ul>
     </div>
   )
 }

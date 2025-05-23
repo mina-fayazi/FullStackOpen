@@ -9,6 +9,7 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import UserList from './components/UserList'
 import User from './components/User'
+import Navigation from './components/Navigation'
 
 // Uncomment to use Redux for state management:
 import { useDispatch, useSelector } from 'react-redux'
@@ -128,6 +129,7 @@ const App = () => {
   }
 
   // Logs out the user by removing stored credentials and clearing state.
+  /*
   const handleLogout = () => {
     // ___Redux version___
     dispatch(logout())
@@ -135,6 +137,7 @@ const App = () => {
     // ___React Query and Context version___
     //logout()
   }
+  */
 
   // Fetches all blogs from the server once the user is logged in.
   // This part should only be uncommented when using Redux for state management
@@ -195,10 +198,7 @@ const App = () => {
         .slice()
         .sort((a, b) => b.likes - a.likes) // Sort blogs by likes in descending order
         .map((blog) => (
-          <BlogList
-            key={blog.id}
-            blog={blog}
-          />
+          <BlogList key={blog.id} blog={blog} />
         ))}
     </div>
   )
@@ -206,10 +206,9 @@ const App = () => {
   return (
     <Router>
       <div>
+        {user && <Navigation />} {/* Show nav only if user is logged in */}
         <h2>Blogs</h2>
-
         <Notification message={notification.message} type={notification.type} />
-
         {user === null ? (
           <LoginForm
             handleSubmit={handleLogin}
@@ -239,29 +238,23 @@ const App = () => {
             password={password}
           />
         ) : (
-          <div>
-            <p>
-              {user.name} logged-in{' '}
-              <button onClick={handleLogout}>Logout</button>
-            </p>
-            <nav>
-              <Link to='/'>Blogs</Link> | <Link to='/users'>Users</Link>
-            </nav>
-            <Routes>
-              <Route
-                path='/'
-                element={
-                  <>
-                    {blogCreate()}
-                    {blogList()}
-                  </>
-                }
-              />
-              <Route path='/users' element={<UserList />} />
-              <Route path='/users/:id' element={<User />} />
-              <Route path="/blogs/:id" element={<Blog updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
-            </Routes>
-          </div>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <>
+                  {blogCreate()}
+                  {blogList()}
+                </>
+              }
+            />
+            <Route path='/users' element={<UserList />} />
+            <Route path='/users/:id' element={<User />} />
+            <Route
+              path='/blogs/:id'
+              element={<Blog updateBlog={updateBlog} deleteBlog={deleteBlog} />}
+            />
+          </Routes>
         )}
       </div>
     </Router>

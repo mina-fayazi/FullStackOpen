@@ -160,3 +160,16 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - A delete button, visible only to the user who created the blog.
 - The blog list view should now only display the blog titles as links. Expanding items is no longer necessary and should be removed.
 - The application uses `react-router-dom` for navigation and routing between the blog list and individual blog views.
+
+### 7.17: Extending the Bloglist: Views - Navigation
+- Implement a navigation menu for the application that enhances usability and allows users to easily access different views.
+- The navigation menu should:
+  - Appear at the top of the page.
+  - Be displayed only when a user is logged in.
+- The menu includes the following items:
+  - A link to the "Blogs" view.
+  - A link to the "Users" view.
+  - The name of the currently logged-in user.
+  - A logout button that logs the user out of the application.
+- Use `react-router-dom` for handling navigation between the views.
+- Ensure that logging out hides the navigation menu and returns the user to the login form.

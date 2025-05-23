@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 
 const Blog = ({ updateBlog, deleteBlog }) => {
   const navigate = useNavigate()
-  
+
   const { id } = useParams()
   const blog = useSelector((state) => state.blogs.find((b) => b.id === id))
-  
+
   const loggedUser = useSelector((state) => state.user)
 
   if (!blog) {
@@ -14,7 +14,7 @@ const Blog = ({ updateBlog, deleteBlog }) => {
   }
 
   const showDeleteButton = blog.user?.username === loggedUser?.user?.username
-  
+
   const handleDelete = () => {
     deleteBlog(blog.id, blog.title, blog.author)
     navigate('/') // Redirect to home after deletion
@@ -22,7 +22,9 @@ const Blog = ({ updateBlog, deleteBlog }) => {
 
   return (
     <div>
-      <h2>{blog.title} {blog.author}</h2>
+      <h2>
+        {blog.title} {blog.author}
+      </h2>
       <a href={blog.url}>{blog.url}</a>
       <p>
         {blog.likes} likes{' '}
@@ -31,10 +33,7 @@ const Blog = ({ updateBlog, deleteBlog }) => {
       <p>Added by {blog.user?.name || blog.user?.username || 'Unknown'}</p>
 
       {showDeleteButton && (
-        <button
-          data-testid="delete-button"
-          onClick={handleDelete}
-        >
+        <button data-testid='delete-button' onClick={handleDelete}>
           Delete
         </button>
       )}

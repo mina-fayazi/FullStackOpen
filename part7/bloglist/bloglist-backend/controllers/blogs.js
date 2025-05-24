@@ -89,8 +89,15 @@ blogsRouter.post('/:id/comments', async (request, response) => {
     return response.status(404).json({ error: 'Blog not found' })
   }
 
+  // Append the new comment to the blog's comments array
   blog.comments = blog.comments.concat(comment)
+
+  // Save the updated blog
   const updatedBlog = await blog.save()
+
+  // Populate the 'user' field with the user's 'username' and 'name' so the frontend receives full user details
+  await updatedBlog.populate('user', { username: 1, name: 1 })
+
   response.status(201).json(updatedBlog)
 })
 

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -16,10 +17,10 @@ const BlogForm = ({ createBlog }) => {
   return (
     <div>
       <h2>Create a new blog</h2>
-      <form onSubmit={handleCreateBlog}>
-        <div>
-          Title:
-          <input
+      <Form onSubmit={handleCreateBlog}>
+        <Form.Group className='mb-2'>
+          <Form.Label>Title</Form.Label>
+          <Form.Control
             data-testid='title-input'
             type='text'
             name='Title'
@@ -27,10 +28,11 @@ const BlogForm = ({ createBlog }) => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-        </div>
-        <div>
-          Author:
-          <input
+        </Form.Group>
+
+        <Form.Group className='mb-2'>
+          <Form.Label>Author</Form.Label>
+          <Form.Control
             data-testid='author-input'
             type='text'
             name='Author'
@@ -38,10 +40,11 @@ const BlogForm = ({ createBlog }) => {
             value={author}
             onChange={(event) => setAuthor(event.target.value)}
           />
-        </div>
-        <div>
-          URL:
-          <input
+        </Form.Group>
+
+        <Form.Group className='mb-2'>
+          <Form.Label>URL</Form.Label>
+          <Form.Control
             data-testid='url-input'
             type='text'
             name='URL'
@@ -49,9 +52,14 @@ const BlogForm = ({ createBlog }) => {
             value={url}
             onChange={(event) => setUrl(event.target.value)}
           />
+        </Form.Group>
+
+        <div className='d-grid gap-2' style={{ marginTop: '10px' }}>
+          <Button variant='success' size='lg' type='submit'>
+            Create
+          </Button>
         </div>
-        <button type='submit'>Create</button>
-      </form>
+      </Form>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useState, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
+import { Button } from 'react-bootstrap'
 
 const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
   const [visible, setVisible] = useState(false)
@@ -14,11 +15,15 @@ const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
 
   return (
     <div>
-      {!visible && <button onClick={toggleVisibility}>{buttonLabel}</button>}
+      {!visible && <Button onClick={toggleVisibility}>{buttonLabel}</Button>}
       {visible && (
         <div>
           {children}
-          <button onClick={toggleVisibility}>Cancel</button>
+          <div className='d-grid gap-2' style={{ marginTop: '10px' }}>
+            <Button variant='secondary' size='lg' onClick={toggleVisibility}>
+              Cancel
+            </Button>
+          </div>
         </div>
       )}
     </div>

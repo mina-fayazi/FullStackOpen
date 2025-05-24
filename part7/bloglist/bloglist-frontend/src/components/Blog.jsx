@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { addComment, setCommentInput } from '../reducers/blogReducer'
+import { Button, Form, ListGroup } from 'react-bootstrap'
 
 const Blog = ({ updateBlog, deleteBlog }) => {
-  const navigate = useNavigate()
   const { id } = useParams()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const blog = useSelector((state) => state.blogs.find((b) => b.id === id))
-
   const loggedUser = useSelector((state) => state.user)
 
   if (!blog) {
@@ -41,33 +41,46 @@ const Blog = ({ updateBlog, deleteBlog }) => {
       <a href={blog.url}>{blog.url}</a>
       <p>
         {blog.likes} likes{' '}
-        <button onClick={() => updateBlog(blog)}>Like</button>
+        <Button size='sm' variant='primary' onClick={() => updateBlog(blog)}>
+          Like
+        </Button>
       </p>
       <p>Added by {blog.user?.name || blog.user?.username || 'Unknown'}</p>
 
       {showDeleteButton && (
-        <button data-testid='delete-button' onClick={handleDelete}>
+        <Button
+          size='sm'
+          variant='danger'
+          data-testid='delete-button'
+          onClick={handleDelete}>
           Delete
-        </button>
+        </Button>
       )}
 
-      <h3>Comments</h3>
-      <form onSubmit={handleCommentSubmit}>
-        <input
-          value={blog.commentInput || ''}
-          onChange={handleCommentChange}
-          placeholder='Write a comment'
-        />
-        <button type='submit'>Add Comment</button>
-      </form>
+      <h3 className='mt-4'>Comments</h3>
+      <Form onSubmit={handleCommentSubmit} className='mb-3'>
+        <Form.Group controlId='commentInput'>
+          <Form.Control
+            type='text'
+            placeholder='Write a comment'
+            value={blog.commentInput || ''}
+            onChange={handleCommentChange}
+          />
+        </Form.Group>
+        <Button type='submit' className='mt-2' size='sm'>
+          Add Comment
+        </Button>
+      </Form>
 
-      <ul>
+      <ListGroup>
         {blog.comments && blog.comments.length > 0 ? (
-          blog.comments.map((c, index) => <li key={index}>{c}</li>)
+          blog.comments.map((c, i) => (
+            <ListGroup.Item key={i}>{c}</ListGroup.Item>
+          ))
         ) : (
-          <li>No comments yet.</li>
+          <ListGroup.Item>No comments yet.</ListGroup.Item>
         )}
-      </ul>
+      </ListGroup>
     </div>
   )
 }

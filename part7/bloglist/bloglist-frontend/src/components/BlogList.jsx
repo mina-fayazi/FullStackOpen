@@ -1,20 +1,32 @@
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
-const BlogList = ({ blog }) => {
+const BlogList = ({ blogs }) => {
   return (
-    <div
-      className='blog'
-      data-testid='blog'
-      style={{
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderWidth: 1,
-        marginBottom: 5,
-      }}>
-      <Link to={`/blogs/${blog.id}`}>
-        {blog.title} {blog.author}
-      </Link>
+    <div className='blog-list' data-testid='blog'>
+      <h2>Blogs</h2>
+      <Table striped hover>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {blogs.map((blog) => (
+            <tr key={blog.id}>
+              <td>
+                <Link
+                  to={`/blogs/${blog.id}`}
+                  style={{ textDecoration: 'none', color: 'black' }}>
+                  <em>{blog.title}</em>
+                </Link>
+              </td>
+              <td>{blog.author}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   )
 }

@@ -186,3 +186,13 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
 - Add functionality to allow users to submit new comments to blog posts from the frontend.
 - When the comment is submitted, it should be sent to the backend and added to the list of comments.
 - Upon successful submission, the new comment should appear in the list without requiring a page reload.
+
+### 7.20: Extending the Bloglist: Views - Styles, step 1
+- Improve the appearance of the application by introducing styling.
+  - Used the `react-bootstrap` library to apply consistent and modern UI components.
+
+### 7.21: Extending the Bloglist: Views - Styles, step 2
+- Dedicated focused time (over three hours) to refine and enhance the styling of the application.
+- Polished layout details, spacing, responsiveness, and component alignment.
+- Ensured a visually cohesive experience across different views and screen sizes.
+- No additional functionality added; the work focused solely on UI/UX improvements.

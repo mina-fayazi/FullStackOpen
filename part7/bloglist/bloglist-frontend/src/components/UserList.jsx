@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const UserList = () => {
   const blogs = useSelector((state) => state.blogs)
@@ -22,7 +23,7 @@ const UserList = () => {
   return (
     <div>
       <h2>Users</h2>
-      <table>
+      <Table striped hover>
         <thead>
           <tr>
             <th>Name</th>
@@ -33,13 +34,17 @@ const UserList = () => {
           {users.map((user) => (
             <tr key={user.id}>
               <td>
-                <Link to={`/users/${user.id}`}>{user.name}</Link>
+                <Link
+                  to={`/users/${user.id}`}
+                  style={{ textDecoration: 'none', color: 'black' }}>
+                  <em>{user.name}</em>
+                </Link>
               </td>
               <td>{user.blogs.length}</td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

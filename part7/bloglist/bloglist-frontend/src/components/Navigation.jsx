@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { logout } from '../reducers/userReducer'
 
 const Navigation = () => {
@@ -12,25 +13,41 @@ const Navigation = () => {
 
   if (!user) return null
 
+  const padding = {
+    paddingRight: 5,
+    textDecoration: 'none',
+    color: 'white',
+  }
+
   return (
-    <div
-      style={{
-        background: 'lightgray',
-        padding: 10,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-      <div>
-        <Link to='/' style={{ marginRight: 10 }}>
-          Blogs
-        </Link>
-        <Link to='/users'>Users</Link>
-      </div>
-      <div>
-        {user.name} logged-in <button onClick={handleLogout}>Logout</button>
-      </div>
-    </div>
+    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+      <Navbar.Collapse id='responsive-navbar-nav'>
+        {/* Left-aligned navigation links */}
+        <Nav className='me-auto px-3'>
+          <Nav.Link as='span'>
+            <Link style={padding} to='/'>
+              Blogs
+            </Link>
+          </Nav.Link>
+          <Nav.Link as='span'>
+            <Link style={padding} to='/users'>
+              Users
+            </Link>
+          </Nav.Link>
+        </Nav>
+
+        {/* Right-aligned user info and logout button */}
+        <Nav className='ms-auto px-3'>
+          <Navbar.Text className='me-2'>
+            <em>{user.name}</em> logged in
+          </Navbar.Text>
+          <Button variant='outline-light' size='sm' onClick={handleLogout}>
+            Logout
+          </Button>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   )
 }
 

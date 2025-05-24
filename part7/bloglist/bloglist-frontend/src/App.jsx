@@ -193,21 +193,13 @@ const App = () => {
 
   // Renders the list of blogs.
   const blogList = () => (
-    <div>
-      {blogs
-        .slice()
-        .sort((a, b) => b.likes - a.likes) // Sort blogs by likes in descending order
-        .map((blog) => (
-          <BlogList key={blog.id} blog={blog} />
-        ))}
-    </div>
+    <BlogList blogs={blogs.slice().sort((a, b) => b.likes - a.likes)} />
   )
 
   return (
     <Router>
-      <div>
+      <div className='container'>
         {user && <Navigation />} {/* Show nav only if user is logged in */}
-        <h2>Blogs</h2>
         <Notification message={notification.message} type={notification.type} />
         {user === null ? (
           <LoginForm
@@ -243,8 +235,15 @@ const App = () => {
               path='/'
               element={
                 <>
-                  {blogCreate()}
-                  {blogList()}
+                  <div
+                    style={{
+                      margin: '20px',
+                      display: 'flex',
+                      justifyContent: 'space-evenly',
+                    }}>
+                    {blogCreate()}
+                  </div>
+                  <div>{blogList()}</div>
                 </>
               }
             />

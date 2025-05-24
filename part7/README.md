@@ -192,7 +192,8 @@ This directory contains the exercises for Part 7 of the FullStackOpen course.
   - Used the `react-bootstrap` library to apply consistent and modern UI components.
 
 ### 7.21: Extending the Bloglist: Views - Styles, step 2
-- Dedicated focused time (over three hours) to refine and enhance the styling of the application.
-- Polished layout details, spacing, responsiveness, and component alignment.
-- Ensured a visually cohesive experience across different views and screen sizes.
-- No additional functionality added; the work focused solely on UI/UX improvements.
+- This exercise can be considered complete after spending at least one hour on styling the application.
+  - Dedicated focused time (over three hours) to refine and enhance the styling of the application.
+  - Polished layout details, spacing, responsiveness, and component alignment.
+  - Ensured a visually cohesive experience across different views and screen sizes.
+  - No additional functionality added; the work focused solely on UI/UX improvements.

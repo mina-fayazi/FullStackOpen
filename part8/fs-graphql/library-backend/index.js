@@ -164,13 +164,19 @@ const resolvers = {
 
   Mutation: {
     addBook: (root, args) => {
+	  const { title, author, published, genres } = args
+
+      if (!title || !author || !published || genres.length === 0) {
+		throw new Error('missing required book fields')
+	  }
+	  
       const existingAuthor = authors.find(
-        (author) => author.name === args.author
+        (author) => author.name === author
       )
 
       if (!existingAuthor) {
         const newAuthor = {
-          name: args.author,
+          name: author,
           id: uuid(),
         }
 

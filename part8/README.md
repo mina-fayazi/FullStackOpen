@@ -170,3 +170,53 @@ mutation {
   }
 }
 ```
+
+### 8.8: Authors View
+- Install the frontend dependencies using `npm install` in the `library-frontend` folder.
+- Implement an `Authors` view that fetches and displays all authors from the GraphQL backend.
+- Use Apollo Client (`useQuery`) to retrieve data from the `allAuthors` query.
+- Display the following fields in a table:
+  - `name`
+  - `born`
+  - `bookCount`
+
+### 8.9: Books View
+- Implement a `Books` view that displays all books from the backend using the `allBooks` query.
+- The view should exclude genres from the displayed output.
+- Display the following fields:
+  - `title`
+  - `author`
+  - `published`
+
+### 8.10: Adding a Book
+- Implement functionality to add new books using the `addBook` mutation.
+- Create a form in the `NewBook` component that allows users to input:
+  - `title`
+  - `author`
+  - `published`
+  - `genres`
+- Allow users to dynamically add multiple genres before submitting the form.
+- Ensure the following behavior:
+  - After submission, both `Books` and `Authors` views must update automatically.
+  - The Apollo cache or refetch mechanism must keep data consistent.
+- Input fields must use proper labels (`title`, `author`, `published`, `genre`) to ensure compatibility with later tests.
+- If a mutation fails, handle the error using Apollo Client’s `onError` callback.
+- Display error messages using a notification component instead of using browser alerts.
+
+### 8.11: Authors Birth Year
+- Implement functionality to update an author's birth year using the `editAuthor` mutation.
+- Add a form inside the `Authors` view that allows:
+  - Entering an author
+  - Entering a birth year
+- The mutation should:
+  - Update the author if they exist
+  - Return `null` if the author is not found
+- Ensure the `Authors` view updates automatically after a successful mutation.
+- The mutation must be integrated using Apollo Client's `useMutation`.
+
+### 8.12: Authors Birth Year Advanced
+- Improve the birth year form by replacing free text input for the author name with a dropdown selection.
+- Use a `<select>` element populated dynamically from the `allAuthors` query.
+- Ensure:
+  - Only existing authors can be selected.
+  - The dropdown updates automatically when authors change.

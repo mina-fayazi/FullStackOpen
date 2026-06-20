@@ -61,6 +61,7 @@ const setupDatabase = async () => {
 
 const teardownDatabase = async () => {
   await mongoose.connection.close()
+  await mongoose.disconnect()
   if (mongoServer) {
     await mongoServer.stop()
   }

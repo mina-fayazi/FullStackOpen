@@ -7,7 +7,7 @@ import {
   EDIT_AUTHOR,
 } from '../queries'
 
-const Authors = (props) => {
+const Authors = ({ show, token }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
@@ -17,7 +17,7 @@ const Authors = (props) => {
     refetchQueries: [{ query: ALL_AUTHORS }],
   })
   
-  if (!props.show) {
+  if (!show) {
     return null
   }
   
@@ -60,46 +60,50 @@ const Authors = (props) => {
         </tbody>
       </table>
 	  
-	  <h3>Set Birthyear</h3>
-      <form onSubmit={submit}>
-        <div>
-          Name
-		  
-          <select
-            value={name}
-            onChange={({ target }) =>
-              setName(target.value)
-            }
-          >
-            <option value="">Select Author</option>
-
-            {authors.map((a) => (
-              <option
-                key={a.id}
-                value={a.name}
+	  {token && (
+	    <>
+	      <h3>Set Birthyear</h3>
+          <form onSubmit={submit}>
+            <div>
+              Name
+		      
+              <select
+                value={name}
+                onChange={({ target }) =>
+                  setName(target.value)
+                }
               >
-                {a.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          Born
-
-          <input
-            type="number"
-            value={born}
-            onChange={({ target }) =>
-              setBorn(target.value)
-            }
-          />
-        </div>
-
-        <button type="submit">
-          Update Author
-        </button>
-      </form>
+                <option value="">Select Author</option>
+	      
+                {authors.map((a) => (
+                  <option
+                    key={a.id}
+                    value={a.name}
+                  >
+                    {a.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+	      
+            <div>
+              Born
+	      
+              <input
+                type="number"
+                value={born}
+                onChange={({ target }) =>
+                  setBorn(target.value)
+                }
+              />
+            </div>
+	      
+            <button type="submit">
+              Update Author
+            </button>
+          </form>
+		</>
+	  )}
     </div>
   )
 }

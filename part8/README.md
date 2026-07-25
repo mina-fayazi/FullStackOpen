@@ -358,3 +358,66 @@ on:
 ```
 
 - Push the changes to GitHub and verify that the test workflow is completed successfully and all tests passed in GitHub Actions.
+
+### 8.18: Listing Books
+- Update the frontend to work with the refactored backend where the `author` field of a book is now an `Author` object instead of a string.
+- Modify the `ALL_BOOKS` GraphQL query to request the author's `name`:
+
+```graphql
+query {
+  allBooks {
+    title
+    published
+    genres
+    id
+    author {
+      name
+    }
+  }
+}
+```
+
+- Update the `Books` component to display `author.name` instead of `author`.
+- Verify that the list of books is rendered correctly after the backend migration to MongoDB.
+
+### 8.19: Log In
+- Implement user authentication in the frontend using the `login` mutation.
+- Create a dedicated `Login` view containing a login form.
+- Add a navigation menu with the following behavior:
+  - When the user is **not logged in**:
+    - `authors`
+    - `books`
+    - `login`
+  - When the user is **logged in**:
+    - `authors`
+    - `books`
+    - `add book`
+    - `logout`
+- Store the received JWT token after a successful login.
+- Configure Apollo Client to include the token in the `Authorization` header for authenticated requests.
+- Update the application so that:
+  - Adding new books works only when logged in.
+  - Editing an author's birth year works only when logged in.
+  - The **Set birthyear** form is rendered only for authenticated users.
+- Logout should:
+  - Remove the stored authentication token.
+  - Reset the Apollo Client cache.
+  - Return the application to the logged-out state.
+
+### 8.20: Books by Genre, part 1
+- Extend the `Books` view to support filtering books by genre.
+- Fetch and display all available genres from the existing book data.
+- Render a button for each genre along with an **all genres** button.
+- When a genre button is selected:
+  - Display only books belonging to that genre.
+  - Show the currently selected genre above the table.
+- Implement the filtering entirely on the client side using React state without modifying the backend queries.
+
+### 8.21: Books by Genre, part 2
+- Implement a new `Recommend` view that displays book recommendations for the currently logged-in user.
+- Use the authenticated `me` query to retrieve the user's favorite genre.
+- Display:
+  - The user's favorite genre.
+  - All books belonging to that genre.
+- Add a **recommend** button to the navigation menu that is visible only when the user is logged in.
+- Reuse the existing `allBooks` query with genre filtering to fetch the recommended books.

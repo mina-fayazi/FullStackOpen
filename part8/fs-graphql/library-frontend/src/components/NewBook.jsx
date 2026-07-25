@@ -25,8 +25,8 @@ const NewBook = (props) => {
     }
   })
   
-  if (!props.show) {
-    return null
+  if (!props.show || !props.token) {
+	return null
   }
 
   const submit = async (event) => {

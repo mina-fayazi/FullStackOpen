@@ -38,17 +38,24 @@ const LoginForm = ({ show, setError, setToken, onLogin }) => {
 	  <h2>Login</h2>
       <form onSubmit={submit}>
         <div>
-          Username <input
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <label>
+            Username
+            <input
+              value={username}
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </label>
         </div>
+        
         <div>
-          Password <input
-            type='password'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <label>
+            Password
+            <input
+              type='password'
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </label>
         </div>
         <button type='submit'>Login</button>
       </form>

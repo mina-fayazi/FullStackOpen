@@ -17,29 +17,37 @@ const buttonStyle = (selected) => ({
 
 const Books = (props) => {
   const [selectedGenre, setSelectedGenre] = useState(null)
-  const result = useQuery(ALL_BOOKS)
+  
+  const genresResult = useQuery(ALL_BOOKS)
+  const booksResult = useQuery(ALL_BOOKS, {
+    variables: { genre: selectedGenre },
+  })
   
   if (!props.show) {
     return null
   }
 
-  if (result.loading) {
+  if (genresResult.loading || booksResult.loading) {
     return <div>loading...</div>
   }
-
-  const books = result.data.allBooks
   
   // Computing genres for filtering:
+  const books = genresResult.data.allBooks
   const genres = [
     ...new Set(
 	  books.flatMap((book) => book.genres)
     ),
   ]
   
-  // Filtering the books by genre if a genre is selected:
+  // Filtering the books by genre if a genre is selected (using just React):
+  /*
   const booksToShow = selectedGenre
     ? books.filter((book) => book.genres.includes(selectedGenre))
     : books
+  */
+  
+  // Filtering the books by genre if a genre is selected (using a GraphQL query):
+  const booksToShow = booksResult.data.allBooks
 
   return (
     <div>

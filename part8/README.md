@@ -421,3 +421,49 @@ query {
   - All books belonging to that genre.
 - Add a **recommend** button to the navigation menu that is visible only when the user is logged in.
 - Reuse the existing `allBooks` query with genre filtering to fetch the recommended books.
+
+### 8.22: Books by Genre with GraphQL
+- Replace the client-side genre filtering implemented in exercise 8.20 with a GraphQL query-based solution.
+- Extend the `allBooks` query to accept an optional `genre` argument.
+- Update the frontend so that selecting a genre button sends a new GraphQL query to the server instead of filtering the existing data locally.
+- Ensure the selected genre is passed as a query variable.
+- The `Books` view should:
+  - Display books belonging only to the selected genre.
+  - Update the displayed list whenever a different genre is selected.
+
+### 8.23: Up-to-Date Cache and Book Recommendations
+- Ensure that the `Books` view remains up to date after adding a new book.
+- Update the Apollo Client cache or use an appropriate refetch mechanism so that:
+  - When a new book is added, the book list updates when a genre selection button is pressed.
+  - The selected genre view fetches the latest book data from the backend.
+- When no new genre selection is made, the view does not need to update.
+- Ensure that the recommendation view continues to display correct books based on the logged-in user's favorite genre.
+
+### 8.24: Checkup
+- Run automated frontend tests to verify that the application works correctly with the backend.
+
+#### Running Tests Locally
+- Navigate to the `tests-chapter5` directory.
+- Install test dependencies:
+
+```bash
+npm install && npx playwright install chromium
+```
+
+- Run the test suite and verify that all frontend tests pass successfully.:
+
+```bash
+npm test
+```
+
+#### Running Tests in GitHub Actions
+- Enable the GitHub Actions workflow by uncommenting the workflow trigger configuration in `.github/workflows/test-chapter5.yml`:
+
+```yaml
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+```
+
+- Push the changes to GitHub and verify that the test workflow is completed successfully and all tests passed in GitHub Actions.

@@ -8,6 +8,46 @@ import {
   ALL_AUTHORS,
 } from '../queries'
 
+// Helper for updating cached ALL_BOOKS queries:
+const updateBooksCache = (cache, addedBook) => {
+
+  const updateBooks = (variables) => {
+    cache.updateQuery(
+      {
+        query: ALL_BOOKS,
+        variables,
+      },
+      (data) => {
+        if (!data) {
+          return data
+        }
+		
+		// Duplicate check to ensure the same book is not added twice:
+		if (data.allBooks.some(book => book.id === addedBook.id)) {
+          return data
+        }
+
+        return {
+          allBooks: data.allBooks.concat(addedBook),
+        }
+      }
+    )
+  }
+  
+  // Update query used by Recommendations.jsx:
+  updateBooks()
+  
+  // Update "All Genres" in Books.jsx:
+  updateBooks({ genre: null })
+
+  // Update every genre the new book belongs to:
+  addedBook.genres.forEach((genre) => {
+    updateBooks({
+      genre,
+    })
+  })
+}
+
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -17,9 +57,14 @@ const NewBook = (props) => {
   
   const [addBook] = useMutation(ADD_BOOK, {
     refetchQueries: [
-      { query: ALL_BOOKS },
       { query: ALL_AUTHORS },
     ],
+	update: (cache, response) => {
+      updateBooksCache(
+        cache,
+        response.data.addBook
+      )
+    },
 	onError: (error) => {
       props.setError(error.message)
     }
@@ -56,7 +101,10 @@ const NewBook = (props) => {
   }
 
   const addGenre = () => {
-    setGenres(genres.concat(genre))
+    const normalizedGenre = genre.trim().toLowerCase()
+    if (normalizedGenre !== '') {
+      setGenres(genres.concat(normalizedGenre))
+    }
     setGenre('')
   }
 

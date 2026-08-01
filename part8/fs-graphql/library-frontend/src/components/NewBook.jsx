@@ -113,32 +113,41 @@ const NewBook = (props) => {
 	  <h2>Add a New Book</h2>
       <form onSubmit={submit}>
         <div>
-          Title
-          <input
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
+		  <label>
+            Title
+            <input
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
+            />
+		  </label>
         </div>
         <div>
-          Author
-          <input
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+		  <label>
+            Author
+            <input
+              value={author}
+              onChange={({ target }) => setAuthor(target.value)}
+            />
+		  </label>
         </div>
         <div>
-          Published
-          <input
-            type="number"
-            value={published}
-            onChange={({ target }) => setPublished(target.value)}
-          />
+		  <label>
+            Published
+            <input
+              type="number"
+              value={published}
+              onChange={({ target }) => setPublished(target.value)}
+            />
+		  </label>
         </div>
         <div>
-          <input
-            value={genre}
-            onChange={({ target }) => setGenre(target.value)}
-          />
+		  <label>
+		    Genre
+            <input
+              value={genre}
+              onChange={({ target }) => setGenre(target.value)}
+            />
+		  </label>
           <button onClick={addGenre} type="button">
             Add Genre
           </button>

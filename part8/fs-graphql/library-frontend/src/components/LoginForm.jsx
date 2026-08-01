@@ -20,7 +20,7 @@ const LoginForm = ({ show, setError, setToken, onLogin }) => {
 	  onLogin()
     },
     onError: (error) => {
-      setError(error.message)
+      setError('login failed')
     }
   })
   

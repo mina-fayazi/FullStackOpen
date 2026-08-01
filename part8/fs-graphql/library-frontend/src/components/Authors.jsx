@@ -65,38 +65,40 @@ const Authors = ({ show, token }) => {
 	      <h3>Set Birthyear</h3>
           <form onSubmit={submit}>
             <div>
-              Name
-		      
-              <select
-			    name="name"
-                value={name}
-                onChange={({ target }) =>
-                  setName(target.value)
-                }
-              >
-                <option value="">Select Author</option>
-	      
-                {authors.map((a) => (
-                  <option
-                    key={a.id}
-                    value={a.name}
-                  >
-                    {a.name}
-                  </option>
-                ))}
-              </select>
+			  <label>
+			    Name
+                <select
+			      name="name"
+                  value={name}
+                  onChange={({ target }) =>
+                    setName(target.value)
+                  }
+                >
+                  <option value="">Select Author</option>
+			    
+                  {authors.map((a) => (
+                    <option
+                      key={a.id}
+                      value={a.name}
+                    >
+                      {a.name}
+                    </option>
+                  ))}
+                </select>
+			  </label>
             </div>
 	      
             <div>
-              Born
-	      
-              <input
-                type="number"
-                value={born}
-                onChange={({ target }) =>
-                  setBorn(target.value)
-                }
-              />
+			  <label>
+			    Born
+                <input
+                  type="number"
+                  value={born}
+                  onChange={({ target }) =>
+                    setBorn(target.value)
+                  }
+                />
+			  </label>
             </div>
 	      
             <button type="submit">

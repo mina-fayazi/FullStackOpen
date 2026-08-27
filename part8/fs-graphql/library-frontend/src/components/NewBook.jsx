@@ -2,51 +2,8 @@ import { useState } from 'react'
 
 import { useMutation } from '@apollo/client/react'
 
-import {
-  ADD_BOOK,
-  ALL_BOOKS,
-  ALL_AUTHORS,
-} from '../queries'
-
-// Helper for updating cached ALL_BOOKS queries:
-const updateBooksCache = (cache, addedBook) => {
-
-  const updateBooks = (variables) => {
-    cache.updateQuery(
-      {
-        query: ALL_BOOKS,
-        variables,
-      },
-      (data) => {
-        if (!data) {
-          return data
-        }
-		
-		// Duplicate check to ensure the same book is not added twice:
-		if (data.allBooks.some(book => book.id === addedBook.id)) {
-          return data
-        }
-
-        return {
-          allBooks: data.allBooks.concat(addedBook),
-        }
-      }
-    )
-  }
-  
-  // Update query used by Recommendations.jsx:
-  updateBooks()
-  
-  // Update "All Genres" in Books.jsx:
-  updateBooks({ genre: null })
-
-  // Update every genre the new book belongs to:
-  addedBook.genres.forEach((genre) => {
-    updateBooks({
-      genre,
-    })
-  })
-}
+import { ADD_BOOK, ALL_AUTHORS } from '../queries'
+import { addBookToCache } from '../utils/apolloCache'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
@@ -60,10 +17,7 @@ const NewBook = (props) => {
       { query: ALL_AUTHORS },
     ],
 	update: (cache, response) => {
-      updateBooksCache(
-        cache,
-        response.data.addBook
-      )
+      addBookToCache(cache, response.data.addBook)
     },
 	onError: (error) => {
       props.setError(error.message)

@@ -467,3 +467,118 @@ on:
 ```
 
 - Push the changes to GitHub and verify that the test workflow is completed successfully and all tests passed in GitHub Actions.
+
+### 8.25: Subscriptions - Server
+- Implement a GraphQL subscription in the backend called `bookAdded` for notifying clients whenever a new book is added.
+- Extend the GraphQL schema with a `Subscription` type:
+
+```graphql
+type Subscription {
+  bookAdded: Book!
+}
+```
+
+- Replace Apollo Server's `startStandaloneServer` setup with an Express-based server using `expressMiddleware`.
+- Configure an `HTTP` server and a `WebSocket` server so that:
+  - Queries and mutations continue to use HTTP.
+  - Subscriptions use WebSockets.
+- Create a `PubSub` instance using `graphql-subscriptions`.
+- Add a `bookAdded` subscription resolver that subscribes clients to a `BOOK_ADDED` event:
+
+```js
+Subscription: {
+  bookAdded: {
+    subscribe: () => pubsub.asyncIterableIterator('BOOK_ADDED'),
+  },
+},
+```
+
+- Modify the `addBook` mutation so that after successfully saving a new book, it publishes the book to all subscribers:
+
+```js
+pubsub.publish('BOOK_ADDED', { bookAdded: book })
+```
+
+- Ensure the published book contains the populated `author` field so that subscribers receive the complete `Book` object.
+
+### 8.26: Subscriptions - Client, part 1
+- Configure Apollo Client to support both HTTP requests and WebSocket subscriptions.
+- Add the `BOOK_ADDED` subscription to `queries.js`:
+
+```graphql
+subscription {
+  bookAdded {
+    title
+    published
+    genres
+    id
+    author {
+      name
+    }
+  }
+}
+```
+
+- Use Apollo Client's `useSubscription` hook in the application.
+- When a new book is received from the server, notify the user:
+
+```js
+useSubscription(BOOK_ADDED, {
+  onData: ({ data }) => {
+    const addedBook = data.data.bookAdded
+    notify(`${addedBook.title} added`)
+  },
+})
+```
+
+- The notification is displayed using the existing notification mechanism.
+
+### 8.27: Subscriptions - Client, part 2
+- Extend the `bookAdded` subscription so that the Apollo Client cache is updated whenever a new book is received from the server.
+- Create a helper function for safely adding a book to the cached `ALL_BOOKS` queries.
+- Before adding the book, check whether it is already present in the cache to prevent duplicate entries.
+- Update the cache for:
+  - The unfiltered `ALL_BOOKS` query.
+  - The `ALL_BOOKS` query with `genre: null`.
+  - Each genre contained in the newly added book.
+- Use the same cache update helper both:
+  - After a book is added locally through the `addBook` mutation.
+  - When a new book is received through the `bookAdded` subscription.
+- This prevents duplicate books when a book added through the application is received both from the mutation response and the subscription.
+- The subscription therefore keeps the `Books` view synchronized across multiple browser tabs.
+- Verify the implementation by:
+  1. Opening the application in two browser tabs.
+  2. Logging in where necessary.
+  3. Adding a book in one tab.
+  4. Confirming that the new book appears in the `Books` view of both tabs.
+
+### 8.28: n+1
+- Solve the n+1 database query problem caused by the `bookCount` field of each author.
+- The original implementation calculated `bookCount` separately for every author:
+
+```js
+Author: {
+  bookCount: async (root) => {
+    return Book.countDocuments({
+      author: root._id,
+    })
+  },
+},
+```
+
+- For a query such as:
+
+```graphql
+query {
+  allAuthors {
+    name
+    bookCount
+  }
+}
+```
+
+- this results in:
+  - One database query to retrieve all authors.
+  - One additional `Book.countDocuments()` query for every author.
+- Replace the per-author count queries with a single aggregation query that calculates the number of books belonging to each author.
+- This removes the n+1 query pattern for the `allAuthors` query by calculating the book counts as part of the main database operation.

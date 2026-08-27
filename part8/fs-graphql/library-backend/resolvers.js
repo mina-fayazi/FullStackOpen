@@ -1,9 +1,12 @@
 const { GraphQLError } = require('graphql')
+const { PubSub } = require('graphql-subscriptions')
 const jwt = require('jsonwebtoken')
 
 const User = require('./models/user')
 const Author = require('./models/author')
 const Book = require('./models/book')
+
+const pubsub = new PubSub()
 
 const resolvers = {
   Query: {
@@ -34,19 +37,33 @@ const resolvers = {
     },
 
     allAuthors: async () => {
-      return Author.find({})
+      const authors = await Author.find({})
+      const bookCounts = await Book.aggregate([
+        {
+          $group: {
+            _id: '$author',
+            count: { $sum: 1 },
+          },
+        },
+      ])
+    
+      const countsByAuthor = new Map(
+        bookCounts.map((item) => [
+          item._id.toString(),
+          item.count,
+        ])
+      )
+    
+      return authors.map((author) => {
+        author.bookCount =
+          countsByAuthor.get(author._id.toString()) || 0
+    
+        return author
+      })
     },
 
     me: (root, args, context) => {
       return context.currentUser
-    },
-  },
-
-  Author: {
-    bookCount: async (root) => {
-      return Book.countDocuments({
-        author: root._id,
-      })
     },
   },
 
@@ -136,6 +153,8 @@ const resolvers = {
         })
       }
 
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
+
       return book
     },
 
@@ -183,6 +202,12 @@ const resolvers = {
       await Book.deleteMany({})
       await User.deleteMany({})
       return true
+    },
+  },
+
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterableIterator('BOOK_ADDED'),
     },
   },
 }

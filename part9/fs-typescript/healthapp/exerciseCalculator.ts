@@ -43,4 +43,41 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+const parseExerciseArguments = (args: string[]): {
+  target: number;
+  dailyHours: number[];
+} => {
+  if (args.length < 3) throw new Error('Not enough arguments');
+
+  const target = Number(args[2]);
+
+  if (isNaN(target)) {
+    throw new Error('Target must be a number');
+  }
+
+  const dailyHours = args.slice(3).map(Number);
+
+  if (dailyHours.some((hours) => isNaN(hours))) {
+    throw new Error('All exercise hours must be numbers');
+  }
+
+  if (dailyHours.length === 0) {
+    throw new Error('At least one exercise day must be provided');
+  }
+
+  return {
+    target,
+    dailyHours
+  };
+};
+
+try {
+  const { target, dailyHours } = parseExerciseArguments(process.argv);
+  console.log(calculateExercises(dailyHours, target));
+} catch (error: unknown) {
+  let errorMessage = 'Something went wrong';
+  if (error instanceof Error) {
+    errorMessage += ': ' + error.message;
+  }
+  console.log(errorMessage);
+}

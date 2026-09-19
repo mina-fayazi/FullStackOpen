@@ -57,3 +57,36 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 ```
 
 - Create an npm script named `calculateExercises` to call the function with hard-coded values `npm run calculateExercises`.
+
+### 9.3: Command Line
+- Modify the `bmiCalculator.ts` and `exerciseCalculator.ts` programs so that their input parameters are provided as command-line arguments instead of hard-coded values.
+- The `calculateBmi` program should accept:
+  - Height in centimeters.
+  - Weight in kilograms.
+- The `calculateBmi` program should work with the following command: `npm run calculateBmi 180 91` and should print: `Overweight`.
+- The `calculateExercises` program should accept:
+  - The target number of daily exercise hours as the first argument.
+  - A variable-length list of daily exercise hours as the remaining arguments.
+- The `calculateExercises` program should accept inputs of different lengths.
+- The `calculateExercises` program should work with the following command: `npm run calculateExercises 2 1 0 2 4.5 0 3 1 0 4` and should print:
+
+```bash
+{
+  periodLength: 9,
+  trainingDays: 6,
+  success: false,
+  rating: 2,
+  ratingDescription: 'not too bad but could be better',
+  target: 2,
+  average: 1.7222222222222223
+}
+```
+
+- Parse the command-line arguments using `process.argv`.
+- Validate the provided arguments and ensure that values expected to be numbers are valid numbers.
+- Handle missing, invalid, or otherwise inappropriate command-line arguments using exceptions and appropriate error messages.
+- The `exerciseCalculator` should not assume a fixed number of exercise days. It should collect all exercise-hour arguments after the target value.
+- If helper functions are defined in separate modules, use the JavaScript/TypeScript module system with import and export.
+- Update the npm scripts so that the programs can be executed from the command line using:
+  - `npm run calculateBmi <height> <weight>`
+  - `npm run calculateExercises <target> <daily exercise hours...>`

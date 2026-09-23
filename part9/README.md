@@ -90,3 +90,60 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - Update the npm scripts so that the programs can be executed from the command line using:
   - `npm run calculateBmi <height> <weight>`
   - `npm run calculateExercises <target> <daily exercise hours...>`
+
+### 9.4: Express
+- Add Express as a project dependency.
+- Create an HTTP GET endpoint at `/hello`.
+- The `/hello` endpoint should respond with: `Hello Full Stack!`
+- Replace the existing `tsconfig.json` file with the following configuration:
+
+```json
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "nodenext",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true
+  }
+}
+```
+
+- Make sure the project contains no TypeScript errors.
+- Add an npm script named `start` to run the application in production mode.
+- Add an npm script named `dev` to run the application in development mode.
+- The web application should be started with:
+  - `npm start` in production mode.
+  - `npm run dev` in development mode.
+  
+### 9.5: WebBMI
+- Add an HTTP GET endpoint at `/bmi`.
+- The endpoint should calculate BMI using `height` and `weight` query string parameters.
+- The `height` parameter represents height in centimeters.
+- The `weight` parameter represents weight in kilograms.
+- For example, a request to `/bmi?height=180&weight=72` should return:
+
+```json
+{
+  weight: 72,
+  height: 180,
+  bmi: "Normal range"
+}
+```
+
+- If the query parameters are missing, invalid, or have an inappropriate type, return an appropriate HTTP status code and the following JSON structure:
+
+```json
+{
+  error: "malformatted parameters"
+}
+```
+
+- Do not copy the BMI calculation logic directly into `index.ts`.
+- Convert `bmiCalculator.ts` into a TypeScript module that exports the BMI calculation function and import the BMI calculation function into `index.ts`.
+- Keep the command-line functionality of `bmiCalculator.ts` working for the previous exercise.
+- Prevent the command-line argument parsing and validation code from running when `bmiCalculator.ts` is imported by `index.ts`. To determine whether `bmiCalculator.ts` is being executed directly, use the condition `process.argv[1] === import.meta.filename` around the command-line execution code. The application should continue to support the command-line BMI calculator while also allowing the BMI calculation function to be imported and used by the Express application.

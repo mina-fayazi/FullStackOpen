@@ -10,7 +10,7 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - Install TypeScript as a development dependency.
 - Create a `tsconfig.json` file with the following configuration:
 
-```js
+```json
 {
   "compilerOptions": {
     "noImplicitAny": true,
@@ -44,7 +44,7 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - You may determine the rating descriptions yourself.
 - The following array represents a week of exercise: `[3, 0, 2, 4.5, 0, 3, 1]`. Calling the function with this array and a target of 2 should return:
 
-```js
+```json
 {
   periodLength: 7,
   trainingDays: 5,
@@ -70,7 +70,7 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - The `calculateExercises` program should accept inputs of different lengths.
 - The `calculateExercises` program should work with the following command: `npm run calculateExercises 2 1 0 2 4.5 0 3 1 0 4` and should print:
 
-```bash
+```json
 {
   periodLength: 9,
   trainingDays: 6,
@@ -155,3 +155,84 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - Configure ESLint according to the course settings.
 - Run ESLint on the project and fix all reported warnings and errors.
 - Ensure that the project passes both TypeScript type checking and ESLint validation without warnings.
+
+### 9.7: WebExercises
+- Convert `exerciseCalculator.ts` into a module that exports the `calculateExercises` function so that it can be used by the Express application.
+- Keep the command-line functionality from the previous exercises working.
+- Add an HTTP POST endpoint at `/exercises`.
+- Configure Express to parse JSON request bodies.
+- The endpoint should receive the daily exercise hours and target value from the request body.
+- The expected request body should have the following structure:
+
+```bash
+{
+  "daily_exercises": [1, 0, 2, 0, 3, 0, 2.5],
+  "target": 2.5
+}
+```
+
+- Pass `daily_exercises` and `target` to the exercise calculator and return the calculated result as JSON.
+- For the example request above, the endpoint should return:
+
+```json
+{
+  "periodLength": 7,
+  "trainingDays": 4,
+  "success": false,
+  "rating": 1,
+  "ratingDescription": "bad",
+  "target": 2.5,
+  "average": 1.2142857142857142
+}
+```
+
+- If either `daily_exercises` or `target` is missing, return an appropriate HTTP status code with:
+
+```json
+{
+  "error": "parameters missing"
+}
+```
+
+- If the provided parameters are malformed, such as values having an incorrect type or values that cannot be converted to numbers, return an appropriate HTTP status code with:
+
+```json
+{
+  "error": "malformatted parameters"
+}
+```
+
+- Ensure that every value in `daily_exercises` is a valid number and that `target` is also a valid number.
+- If necessary when handling the request body, the explicit `any` type may be used for this exercise.
+- The `@typescript-eslint/no-explicit-any` rule may be disabled for an individual line when necessary using:
+
+```js
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+```
+
+- The ESLint rules `no-unsafe-member-access`, `no-unsafe-assignment`, and `no-unsafe-call` may also be ignored where necessary for this exercise.
+- Make sure the application continues to satisfy the functionality implemented in the previous exercises.
+
+### 9.8: Checkup
+- Verify that the complete `healthapp` application passes the provided end-to-end tests.
+- Start the application from the `healthapp` directory using `npm start`.
+- Make sure the application is running on port `3000`.
+- Open a separate terminal and navigate to the `healthapp-tests` directory.
+- Before running the tests for the first time, install the test dependencies using `npm install`.
+- Install the required Playwright browsers using `npx playwright install`.
+- Make sure the health application is already running before executing the tests.
+- Run the end-to-end tests using `npm test`.
+- Fix any remaining issues until all provided tests pass locally.
+- Update the GitHub Actions workflow file `.github/workflows/healthapp-e2e-tests.yml` so that the workflow runs when code is pushed to either the `main` or `master` branch.
+- Configure the beginning of the workflow as follows:
+
+```bash
+name: Health app E2E Tests
+on:
+  push:
+    branches: [ main, master ]
+```
+
+- Push the completed project to GitHub.
+- Open the repository's GitHub Actions results and verify that the Health app end-to-end test workflow runs successfully.
+- Ensure that all end-to-end tests pass both locally and in GitHub Actions.

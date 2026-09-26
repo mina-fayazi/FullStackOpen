@@ -190,7 +190,7 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 
 ```json
 {
-  "error": "parameters missing"
+  error: "parameters missing"
 }
 ```
 
@@ -198,7 +198,7 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 
 ```json
 {
-  "error": "malformatted parameters"
+  error: "malformatted parameters"
 }
 ```
 

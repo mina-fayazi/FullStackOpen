@@ -147,3 +147,11 @@ This directory contains the exercises for Part 9 of the FullStackOpen course.
 - Convert `bmiCalculator.ts` into a TypeScript module that exports the BMI calculation function and import the BMI calculation function into `index.ts`.
 - Keep the command-line functionality of `bmiCalculator.ts` working for the previous exercise.
 - Prevent the command-line argument parsing and validation code from running when `bmiCalculator.ts` is imported by `index.ts`. To determine whether `bmiCalculator.ts` is being executed directly, use the condition `process.argv[1] === import.meta.filename` around the command-line execution code. The application should continue to support the command-line BMI calculator while also allowing the BMI calculation function to be imported and used by the Express application.
+
+### 9.6: ESLint
+- Configure the `healthapp` project to use ESLint with the TypeScript ESLint settings required by the course.
+- Install the required ESLint dependencies.
+- If `npm install` fails because the current `typescript-eslint` version is incompatible with TypeScript 6, install the dependencies using `npm install --legacy-peer-deps`.
+- Configure ESLint according to the course settings.
+- Run ESLint on the project and fix all reported warnings and errors.
+- Ensure that the project passes both TypeScript type checking and ESLint validation without warnings.

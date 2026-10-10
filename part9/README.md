@@ -236,3 +236,25 @@ on:
 - Push the completed project to GitHub.
 - Open the repository's GitHub Actions results and verify that the Health app end-to-end test workflow runs successfully.
 - Ensure that all end-to-end tests pass both locally and in GitHub Actions.
+
+### 9.9: Patientor Backend, step 1
+- Create a new backend project in the `patientor/backend` directory to support the existing Patientor frontend.
+- Copy the provided frontend code into the `patientor/frontend` directory of the submission repository.
+- Initialize the backend project using `npm init`.
+- Install and configure TypeScript and the required backend dependencies.
+- Configure ESLint and `tsconfig.json` using the same settings provided in the course material.
+- Define an HTTP GET endpoint at `/api/ping` that responds to ping requests from the frontend.
+- Configure the backend to run in development mode using `npm run dev`.
+- Configure the backend to run in production mode using `npm start`.
+- Ensure that the backend starts successfully and that the `/api/ping` endpoint returns a valid response.
+
+### 9.10: Patientor Backend, step 2
+- Ensure that the Patientor frontend is located in the `patientor/frontend` directory of the submission repository.
+- Start the backend and frontend applications by following the instructions in the README file.
+- Verify that the frontend can run independently of a fully functioning backend.
+- Ensure that the backend correctly handles the ping request sent by the frontend during startup.
+- Open the browser's developer tools and inspect the **Network** tab to verify that the request to `/api/ping` succeeds.
+- Check the **Console** tab for any errors or warnings that might indicate problems with the frontend or backend.
+- If the ping request fails, inspect the request URL, HTTP status code, backend server status, and browser console messages.
+- Refer to [Part 3 of the Full Stack Open course](https://fullstackopen.com/en/part3) for guidance on troubleshooting common backend and frontend integration issues.
+- Confirm that the frontend loads and that the backend responds correctly to the ping request.
